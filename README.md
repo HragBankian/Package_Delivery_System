@@ -1,6 +1,5 @@
 # SOEN343 - Team: Omnivox 2
 # Delivery_Service_Application
-Delivery service and parcel tracking application.
 
 Members and responsibilities:
 
