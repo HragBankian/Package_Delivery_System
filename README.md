@@ -3,6 +3,7 @@
 Delivery service and parcel tracking application.
 
 Members and responsibilities:
+
 Hrag Bankian (40245363) - Users (CRUD)
 
 Gregory Demirdjian (40249882) - Shipping and tracking
