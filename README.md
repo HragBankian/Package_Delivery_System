@@ -1,5 +1,5 @@
 # SOEN343 - Team: Omnivox 2
-# Delivery_Service_Application
+# Delivery Service Application
 
 Members and responsibilities:
 
