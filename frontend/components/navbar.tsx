@@ -79,7 +79,7 @@ export default function Navbar() {
             className="font-roboto flex flex-row items-center truncate text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
             href={"/"}
           >
-            Contact Us
+            Get Quotation
           </Link>
           <Link
             className="font-roboto flex flex-row items-center truncate text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
