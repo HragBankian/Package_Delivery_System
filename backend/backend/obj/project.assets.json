@@ -2045,19 +2045,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\hrag_\\.nuget\\packages\\": {}
+    "C:\\Users\\sevag\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hrag_\\Documents\\Documents\\Programming\\GitHub\\SOEN343_Omnivox_2\\backend\\backend\\backend.csproj",
+      "projectUniqueName": "E:\\SOEN-343 Project\\SOEN343_Omnivox_2\\backend\\backend\\backend.csproj",
       "projectName": "backend",
-      "projectPath": "C:\\Users\\hrag_\\Documents\\Documents\\Programming\\GitHub\\SOEN343_Omnivox_2\\backend\\backend\\backend.csproj",
-      "packagesPath": "C:\\Users\\hrag_\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\hrag_\\Documents\\Documents\\Programming\\GitHub\\SOEN343_Omnivox_2\\backend\\backend\\obj\\",
+      "projectPath": "E:\\SOEN-343 Project\\SOEN343_Omnivox_2\\backend\\backend\\backend.csproj",
+      "packagesPath": "C:\\Users\\sevag\\.nuget\\packages\\",
+      "outputPath": "E:\\SOEN-343 Project\\SOEN343_Omnivox_2\\backend\\backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\hrag_\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\sevag\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
