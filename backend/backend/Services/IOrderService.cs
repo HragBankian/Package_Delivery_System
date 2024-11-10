@@ -12,11 +12,11 @@ public interface IOrderService
 
 public class OrderService : IOrderService
 {
-    private readonly IDbConnection _dbConnection;
+    private readonly IConfiguration _configuration;
 
-    public OrderService(IDbConnection dbConnection)
+    public OrderService(IConfiguration configuration)
     {
-        _dbConnection = dbConnection;
+        _configuration = configuration;
     }
 
     public Order CreateOrder(Tracking trackingObject)
@@ -26,12 +26,12 @@ public class OrderService : IOrderService
             status = OrderStatus.PaymentPending,
             trackingObject = trackingObject
         };
-
+        using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
         string sql = @"
-            INSERT INTO Orders (status, trackingNumber)
+            INSERT INTO orders (status, trackingNumber)
             VALUES (@Status, @TrackingNumber);
             SELECT LAST_INSERT_ID();"; 
-        int newOrderId = _dbConnection.ExecuteScalar<int>(sql, new
+        int newOrderId = connection.ExecuteScalar<int>(sql, new
         {
             Status = (int)order.status,
             TrackingNumber = trackingObject.trackingNumber

@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using Dapper;
 using backend.DatabaseClasses;
+using MySql.Data.MySqlClient;
 
 namespace backend.Services;
 
@@ -11,11 +12,11 @@ public interface IPackageService
 
 public class PackageService : IPackageService
 {
-    private readonly IDbConnection _dbConnection;
+    private readonly IConfiguration _configuration;
 
-    public PackageService(IDbConnection dbConnection)
+    public PackageService(IConfiguration configuration)
     {
-        _dbConnection = dbConnection;
+        _configuration = configuration;
     }
 
     public bool CreatePackages(List<Package> packages, int deliveryRequestId)
@@ -25,16 +26,18 @@ public class PackageService : IPackageService
             INSERT INTO packages (length, width, height, weight, category, isFragile, deliveryRequestId)
             VALUES (@Length, @Width, @Height, @Weight, @Category, @IsFragile, @DeliveryRequestId);
         ";
+        using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
 
         // Use a transaction to ensure atomicity when inserting multiple packages
-        using (var transaction = _dbConnection.BeginTransaction())
+        connection.Open();
+        using (var transaction = connection.BeginTransaction())
         {
             try
             {
                 foreach (var package in packages)
                 {
                     // Insert each package into the database
-                    _dbConnection.Execute(sql, new
+                    connection.Execute(sql, new
                     {
                         Length = package.length,
                         Width = package.width,

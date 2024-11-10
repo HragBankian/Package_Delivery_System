@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using Dapper;
 using backend.DatabaseClasses;
+using MySql.Data.MySqlClient;
 
 public interface IDeliveryRequestService
 {
@@ -9,11 +10,11 @@ public interface IDeliveryRequestService
 
 public class DeliveryRequestService : IDeliveryRequestService
 {
-    private readonly IDbConnection _dbConnection;
+    private readonly IConfiguration _configuration;
 
-    public DeliveryRequestService(IDbConnection dbConnection)
+    public DeliveryRequestService(IConfiguration configuration)
     {
-        _dbConnection = dbConnection;
+        _configuration = configuration;
     }
 
     public DeliveryRequest CreateDeliveryRequest(int customerId, string pickupLocation, string dropoffLocation, Order order)
@@ -32,9 +33,9 @@ public class DeliveryRequestService : IDeliveryRequestService
             INSERT INTO delivery_requests (pickupLocation, dropoffLocation, requestDate, customerId, orderId)
             VALUES (@PickupLocation, @DropoffLocation, @RequestDate, @CustomerId, @OrderId);
             SELECT LAST_INSERT_ID();";
-
+        using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
         // Execute the insert query and retrieve the new ID
-        int newDeliveryRequestId = _dbConnection.ExecuteScalar<int>(sql, new
+        int newDeliveryRequestId = connection.ExecuteScalar<int>(sql, new
         {
             PickupLocation = deliveryRequest.pickupLocation,
             DropoffLocation = deliveryRequest.dropoffLocation,
