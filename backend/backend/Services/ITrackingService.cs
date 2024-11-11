@@ -2,12 +2,12 @@
 
 public interface ITrackingService
 {
-    Tracking CreateTrackingForOrder();
+    Tracking CreateTracking();
 }
 
 public class TrackingService : ITrackingService
 {
-    public Tracking CreateTrackingForOrder()
+    public Tracking CreateTracking()
     {
         // rewrite to interact with database, Greg
         //used in DeliveryFacade

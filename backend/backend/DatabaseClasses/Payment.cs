@@ -2,5 +2,5 @@
 
 public class Payment
 {
-    public Quotation associatedQuotation { get; set; }
+    public Quotation quotationObject { get; set; }
 }
