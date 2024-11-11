@@ -1,3 +1,6 @@
+import { OrderFormContextProvider } from "@/components/multistep-form-context";
+import { Steps } from "./components/Steps";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -7,8 +10,10 @@ export default function RootLayout({
     <div>
       <div></div>
       <div className="grid grid-rows-[10%] min-h-screen pt-20">
-        <div className="bg-red-400">Progress bar</div>
-        <div className="grid grid-cols-2">{children}</div>
+        <OrderFormContextProvider>
+          <Steps />
+          <div className="grid grid-cols-2">{children}</div>
+        </OrderFormContextProvider>
       </div>
     </div>
   );

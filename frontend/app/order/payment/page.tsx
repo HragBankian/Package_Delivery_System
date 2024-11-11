@@ -1,10 +1,10 @@
 import PayementForm from "@/app/order/components/PaymentForm";
 import OrderDetails from "../components/OrderDetails";
 
-export default function Order() {
+export default function Payment() {
   return (
     <>
-      <OrderDetails/> 
+      <OrderDetails />
       <PayementForm />
     </>
   );
