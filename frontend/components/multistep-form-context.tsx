@@ -22,7 +22,7 @@ export type Payment = {
   amount: string;
 };
 
-enum PackageCategory {
+export enum PackageCategory {
   Standard = "Standard",
   Hazardous = "Hazardous",
   Valuable = "Valuable",

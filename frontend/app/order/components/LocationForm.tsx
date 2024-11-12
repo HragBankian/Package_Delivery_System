@@ -22,8 +22,8 @@ export default function LocationForm() {
 
   // STEP 1: Defining the form schema👇🏽
   const newOrderFormSchema = z.object({
-    originLocation: z.string().min(3, "at least 3 characteres"),
-    destinationLocation: z.string().min(3, "at least 3 characteres"),
+    originLocation: z.string().min(3, "at least 3 characters"),
+    destinationLocation: z.string().min(3, "at least 3 characters"),
   });
 
   // STEP 2: Defining your form.

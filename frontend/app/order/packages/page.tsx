@@ -1,11 +1,11 @@
 import PackageList from "../components/PackagesList";
-import LocationMap from "../components/LocationMap";
+import PackageForm from "../components/PackageForm";
 
 export default function Locations() {
   return (
     <>
       <PackageList />
-      <LocationMap />
+      <PackageForm />
     </>
   );
 }
