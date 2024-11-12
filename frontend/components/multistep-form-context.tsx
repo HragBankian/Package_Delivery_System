@@ -34,6 +34,7 @@ interface MultiStepContextType {
   nextStep: () => void;
   prevStep: () => void;
   createOrderData: (data: Order) => void;
+  addNewPackage: () => void;
   updateOrderData: (values: Partial<Order>) => void;
 }
 
@@ -42,7 +43,9 @@ interface MultiStepContextProviderProps {
   children: ReactNode;
 }
 
-export const MultiStepContext = createContext({} as MultiStepContextType);
+export const MultiStepContext = createContext<MultiStepContextType>(
+  {} as MultiStepContextType
+);
 
 export const useOrderFormContext = () => {
   const context = useContext(MultiStepContext);
@@ -58,11 +61,13 @@ export function OrderFormContextProvider({
   children,
 }: MultiStepContextProviderProps) {
   const [step, setStep] = useState(1);
+  const [currentPackage, setCurrentPackage] = useState(0);
   const [order, setOrder] = useState<Order | null>(null);
 
   function nextStep() {
     if (step === 5) return;
     setStep((prev) => prev + 1);
+    console.log(step);
   }
   function prevStep() {
     if (step === 1) return;
@@ -75,7 +80,16 @@ export function OrderFormContextProvider({
 
   return (
     <MultiStepContext.Provider
-      value={{ order, step, nextStep, prevStep, setOrder, updateOrderData }}
+      value={{
+        order,
+        step,
+        nextStep,
+        prevStep,
+        setOrder,
+        updateOrderData,
+        currentPackage,
+        setCurrentPackage,
+      }}
     >
       {children}
     </MultiStepContext.Provider>
