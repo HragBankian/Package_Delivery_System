@@ -1,45 +1,16 @@
-"use client";
 import omnivoxLogo from "@/public/logos/logo-omnivox.png";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import UserButton from "./UserButton";
 
 export const dynamic = "force-dynamic";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const pathName = usePathname();
-
-  //Handles the opening and closing of our nav
-  const handleClick = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const closeMenu = () => {
-    if (isOpen) {
-      setIsOpen(!isOpen);
-    }
-  };
-
-  useEffect(() => {
-    const updatePosition = () => {
-      setScrollPosition(window.scrollY);
-    };
-    window.addEventListener("scroll", updatePosition);
-    updatePosition();
-  }, []);
-
   return (
     <div>
       <div
         className={`omnivoxorange fixed z-30 flex w-full flex-row border-b border-omnivoxorange p-4 shadow-2xl transition duration-300 md:px-8 lg:px-16 ${
-          scrollPosition > 10
-            ? "bg-omnivoxorange/30 backdrop-blur-xl"
-            : "bg-omnivoxorange"
+          0 > 10 ? "bg-omnivoxorange/30 backdrop-blur-xl" : "bg-omnivoxorange"
         }`}
       >
         <div
@@ -48,7 +19,6 @@ export default function Navbar() {
           <Link
             className={`duration-250 flex flex-row items-center gap-1 font-sans text-omnivoxblue text-3xl font-medium`}
             href={"/"}
-            onClick={closeMenu}
           >
             <Image
               src={omnivoxLogo}
@@ -93,16 +63,16 @@ export default function Navbar() {
           >
             Login
           </Link>
+          <UserButton />
         </div>
         <button
-          onClick={handleClick}
           aria-label="menu"
           className="ml-auto flex flex-col gap-1.5 self-center md:hidden"
         >
           <span
             className={`block h-0.5 w-6 rounded-sm 
                     transition-all duration-300 ease-out ${
-                      isOpen
+                      false
                         ? "translate-y-2 rotate-45 bg-white"
                         : "-translate-y-0.5 bg-white"
                     }`}
@@ -110,13 +80,13 @@ export default function Navbar() {
           <span
             className={`block h-0.5 w-6 rounded-sm 
                     transition-all duration-300 ease-out ${
-                      isOpen ? "bg-transparent" : "-translate-y-0.5 bg-white"
+                      false ? "bg-transparent" : "-translate-y-0.5 bg-white"
                     }`}
           ></span>
           <span
             className={`block h-0.5 w-6 rounded-sm 
                     transition-all duration-300 ease-out ${
-                      isOpen
+                      false
                         ? "-translate-y-2 -rotate-45 bg-white"
                         : "-translate-y-0.5 bg-white"
                     }`}
@@ -125,13 +95,12 @@ export default function Navbar() {
       </div>
       <div
         className={`fixed left-[10%] top-[20%] flex w-[80%] flex-col items-center justify-center gap-1.5 rounded-lg border border-omnivoxorange bg-zinc-950/50 py-6 drop-shadow-xl backdrop-blur-xl backdrop-brightness-150 transition-all duration-300 ease-out md:hidden ${
-          isOpen ? "opacity-1 z-30" : "z-0 opacity-0"
+          false ? "opacity-1 z-30" : "z-0 opacity-0"
         }`}
       >
         <Link
           className="font-roboto flex flex-row text-2xl text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
           href={"/"}
-          onClick={handleClick}
         >
           Home
         </Link>
@@ -139,7 +108,6 @@ export default function Navbar() {
         <Link
           className="font-roboto flex flex-row text-2xl text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
           href={"/"}
-          onClick={handleClick}
         >
           Order Tracker
         </Link>
@@ -147,7 +115,6 @@ export default function Navbar() {
         <Link
           className="font-roboto flex flex-row text-2xl text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
           href={"/"}
-          onClick={handleClick}
         >
           Contact Us
         </Link>
@@ -155,7 +122,6 @@ export default function Navbar() {
         <Link
           className="font-roboto flex flex-row text-2xl text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
           href={"/"}
-          onClick={handleClick}
         >
           Our Story
         </Link>

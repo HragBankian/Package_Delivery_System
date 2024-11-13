@@ -22,7 +22,7 @@ export type Payment = {
   amount: string;
 };
 
-enum PackageCategory {
+export enum PackageCategory {
   Standard = "Standard",
   Hazardous = "Hazardous",
   Valuable = "Valuable",
@@ -34,7 +34,11 @@ interface MultiStepContextType {
   nextStep: () => void;
   prevStep: () => void;
   createOrderData: (data: Order) => void;
+  currentPackage: number;
+  setCurrentPackage: (data: number) => void;
+  addNewPackage: () => void;
   updateOrderData: (values: Partial<Order>) => void;
+  updatePackageList: (values: Package[]) => void;
 }
 
 // "This will allow you to update the state within the context whenever you need to."
@@ -42,7 +46,9 @@ interface MultiStepContextProviderProps {
   children: ReactNode;
 }
 
-export const MultiStepContext = createContext({} as MultiStepContextType);
+export const MultiStepContext = createContext<MultiStepContextType>(
+  {} as MultiStepContextType
+);
 
 export const useOrderFormContext = () => {
   const context = useContext(MultiStepContext);
@@ -58,11 +64,18 @@ export function OrderFormContextProvider({
   children,
 }: MultiStepContextProviderProps) {
   const [step, setStep] = useState(1);
-  const [order, setOrder] = useState<Order | null>(null);
+  const [currentPackage, setCurrentPackage] = useState(0);
+  const [order, setOrder] = useState<Order | null>({
+    packageList: [],
+    originLocation: "",
+    destinationLocation: "",
+    payment: { method: "", amount: "" },
+  });
 
   function nextStep() {
     if (step === 5) return;
     setStep((prev) => prev + 1);
+    console.log(step);
   }
   function prevStep() {
     if (step === 1) return;
@@ -73,9 +86,26 @@ export function OrderFormContextProvider({
     setOrder({ ...order, ...values });
   };
 
+  const updatePackageList = (updatedPackages: Package[]) => {
+    setOrder(
+      (prevOrder) =>
+        prevOrder ? { ...prevOrder, packageList: updatedPackages } : null // Or handle the case where the order is null
+    );
+  };
+
   return (
     <MultiStepContext.Provider
-      value={{ order, step, nextStep, prevStep, setOrder, updateOrderData }}
+      value={{
+        order,
+        step,
+        nextStep,
+        prevStep,
+        setOrder,
+        updateOrderData,
+        currentPackage,
+        setCurrentPackage,
+        updatePackageList,
+      }}
     >
       {children}
     </MultiStepContext.Provider>

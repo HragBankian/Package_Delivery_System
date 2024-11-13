@@ -1,10 +1,8 @@
 "use client";
 export default function PayementForm() {
   return (
-    <div className="space-y-6 m-2 p-2 rounded-xl border border-3 bg-gray-100">
-      <h2 className="text-2xl font-bold mb-4 text-center rounded-xl border border-3">
-        Order Details
-      </h2>
+    <div className="space-y-6 m-2 p-2 rounded-xl border border-3 border-omnivoxorange">
+      <h2 className="text-2xl font-bold mb-4 text-center">Order Details</h2>
       <div>
         <h3 className="block text-gray-700 text-xl dark:text-gray-300">
           Locations

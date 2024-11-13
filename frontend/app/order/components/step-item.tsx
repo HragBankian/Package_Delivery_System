@@ -17,15 +17,15 @@ export function StepItem({ infos }: StepItemProps) {
       <span
         className={`flex size-10 items-center justify-center rounded-full border-2 font-medium ${
           step === infos.num || isFinished
-            ? "border-indigo-300 bg-indigo-300 text-black"
-            : ""
+            ? "border-omnivoxblue bg-omnivoxorange text-white"
+            : "text-omnivoxorange border-omnivoxorange"
         }`}
       >
         {infos.num}
       </span>
       <div className="hidden flex-col lg:flex">
-        <p className="text-sm text-gray-400">{infos.title}</p>
-        <p>{infos.description}</p>
+        <p className="text-sm text-gray-600 font-bold">{infos.title}</p>
+        <p className="text-omnivoxdarkorange">{infos.description}</p>
       </div>
     </li>
   );

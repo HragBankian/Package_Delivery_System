@@ -8,7 +8,7 @@ const stepData = [
 ];
 export function Steps() {
   return (
-    <header className="flex items-start justify-center bg-sidebarMobile bg-cover bg-no-repeat p-6 lg:rounded-md lg:bg-sidebarDesktop lg:bg-cover lg:bg-center bg-gray-500">
+    <header className="flex items-start justify-center bg-sidebarMobile bg-cover bg-no-repeat p-6 lg:rounded-md lg:bg-sidebarDesktop lg:bg-cover lg:bg-center bg-white">
       <ul className="flex gap-4 text-white lg:gap-8">
         {stepData.map((info, index) => {
           return <StepItem key={index} infos={info} />;

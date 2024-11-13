@@ -17,7 +17,12 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 
 export default function LocationMap() {
   return (
-    <MapContainer center={[45.505, -73.55]} zoom={13} scrollWheelZoom={false}>
+    <MapContainer
+      center={[45.505, -73.55]}
+      zoom={13}
+      scrollWheelZoom={false}
+      className="m-2 p-2 rounded-xl"
+    >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
