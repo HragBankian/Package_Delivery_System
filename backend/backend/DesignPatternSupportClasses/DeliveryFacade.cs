@@ -4,6 +4,11 @@ using MySql.Data.MySqlClient;
 
 namespace backend.DesignPatternSupportClasses;
 
+public class DeliveryRequestResponse
+{
+    public Guid trackingNumber { get; set; }
+    public int deliveryRequestId { get; set; }
+}
 public class DeliveryFacade
 {
     private readonly IDeliveryRequestService _deliveryRequestService;
@@ -19,7 +24,7 @@ public class DeliveryFacade
         _packagesService = packageService;
     }
 
-    public Guid RequestDelivery(int customerId, string pickupLocation, string dropoffLocation, List<Package> packages)
+    public DeliveryRequestResponse RequestDelivery(int customerId, string pickupLocation, string dropoffLocation, List<Package> packages)
     {
         //not dealing with tracking for now, but it HAS to return a Tracking object 
         Tracking tracking = _trackingService.CreateTracking();
@@ -41,7 +46,11 @@ public class DeliveryFacade
         //returns tracking number in response
         if (createPackagesSuccess)
         {
-            return tracking.trackingNumber;
+            return new DeliveryRequestResponse()
+            {
+                trackingNumber = tracking.trackingNumber,
+                deliveryRequestId = deliveryRequest.id
+            };
         }
         throw new InvalidOperationException("Failed to create packages.");
         
