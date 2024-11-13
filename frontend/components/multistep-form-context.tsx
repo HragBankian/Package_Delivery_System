@@ -34,8 +34,11 @@ interface MultiStepContextType {
   nextStep: () => void;
   prevStep: () => void;
   createOrderData: (data: Order) => void;
+  currentPackage: number;
+  setCurrentPackage: (data: number) => void;
   addNewPackage: () => void;
   updateOrderData: (values: Partial<Order>) => void;
+  updatePackageList: (values: Package[]) => void;
 }
 
 // "This will allow you to update the state within the context whenever you need to."
@@ -62,7 +65,12 @@ export function OrderFormContextProvider({
 }: MultiStepContextProviderProps) {
   const [step, setStep] = useState(1);
   const [currentPackage, setCurrentPackage] = useState(0);
-  const [order, setOrder] = useState<Order | null>(null);
+  const [order, setOrder] = useState<Order | null>({
+    packageList: [],
+    originLocation: "",
+    destinationLocation: "",
+    payment: { method: "", amount: "" },
+  });
 
   function nextStep() {
     if (step === 5) return;
@@ -78,6 +86,13 @@ export function OrderFormContextProvider({
     setOrder({ ...order, ...values });
   };
 
+  const updatePackageList = (updatedPackages: Package[]) => {
+    setOrder(
+      (prevOrder) =>
+        prevOrder ? { ...prevOrder, packageList: updatedPackages } : null // Or handle the case where the order is null
+    );
+  };
+
   return (
     <MultiStepContext.Provider
       value={{
@@ -89,6 +104,7 @@ export function OrderFormContextProvider({
         updateOrderData,
         currentPackage,
         setCurrentPackage,
+        updatePackageList,
       }}
     >
       {children}

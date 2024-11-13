@@ -35,6 +35,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
+import { useEffect } from "react";
 
 export default function PackageForm() {
   const formContext = useOrderFormContext();
@@ -42,51 +43,50 @@ export default function PackageForm() {
 
   const category = ["Standard", "Hazardous", "Valuable"] as const;
 
-  // STEP 1: Defining the form schema👇🏽
-  const newOrderFormSchema = z.object({
-    weight: z.string().min(3, "at least 3 characteres"),
-    height: z.string().min(3, "at least 3 characteres"),
-    length: z.string().min(3, "at least 3 characteres"),
-    width: z.string().min(3, "at least 3 characteres"),
+  // Form schema using Zod
+  const packageFormSchema = z.object({
+    weight: z.string().min(1, "Weight is required"),
+    height: z.string().min(1, "Height is required"),
+    length: z.string().min(1, "Length is required"),
+    width: z.string().min(1, "Width is required"),
     category: z.enum(category),
     isFragile: z.boolean(),
   });
 
-  // STEP 2: Defining your form.
-  const stepTwoForm = useForm<z.infer<typeof newOrderFormSchema>>({
-    resolver: zodResolver(newOrderFormSchema),
+  const currentPackageIndex = formContext.currentPackage;
+  const currentPackageData = formContext.order.packageList[currentPackageIndex];
+
+  // React Hook Form setup
+  const packageForm = useForm<z.infer<typeof packageFormSchema>>({
+    resolver: zodResolver(packageFormSchema),
     mode: "onChange",
-    defaultValues: {
-      weight: "",
-      height: "",
-      length: "",
-      width: "",
-      category: "Standard",
-      isFragile: false,
-    },
+    defaultValues: currentPackageData,
   });
 
-  // STEP 3: Defining the submit function
-  function onSubmit(values: z.infer<typeof newOrderFormSchema>) {
-    formContext.updateOrderData(values);
-    formContext.nextStep();
+  useEffect(() => {
+    packageForm.reset(currentPackageData); // Reset the form values whenever the current package changes
+  }, [currentPackageData, packageForm.reset]);
 
-    router.push("/order/packages/");
+  function onSubmit(values: z.infer<typeof packageFormSchema>) {
+    const updatedPackages = [...formContext.order.packageList];
+    updatedPackages[currentPackageIndex] = values; // Update only the current package
+    formContext.updatePackageList(updatedPackages); // Save updated packageList to context
   }
+
   return (
-    <Form {...stepTwoForm}>
+    <Form {...packageForm}>
       <form
-        onSubmit={stepTwoForm.handleSubmit(onSubmit)}
+        onSubmit={packageForm.handleSubmit(onSubmit)}
         className="space-y-6 m-2 p-2 rounded-xl border border-3 bg-gray-100 overflow-scroll max-h-[80vh]"
       >
         <h2 className="text-2xl font-bold mb-4 text-center rounded-xl border border-3">
-          Package 1
+          Package {currentPackageIndex + 1}
         </h2>
         <h3 className="block text-gray-700 text-xl dark:text-gray-300">
           Dimensions
         </h3>
         <FormField
-          control={stepTwoForm.control}
+          control={packageForm.control}
           name="weight"
           render={({ field }) => (
             <FormItem>
@@ -103,7 +103,7 @@ export default function PackageForm() {
           )}
         />
         <FormField
-          control={stepTwoForm.control}
+          control={packageForm.control}
           name="height"
           render={({ field }) => (
             <FormItem>
@@ -120,7 +120,7 @@ export default function PackageForm() {
           )}
         />
         <FormField
-          control={stepTwoForm.control}
+          control={packageForm.control}
           name="length"
           render={({ field }) => (
             <FormItem>
@@ -137,7 +137,7 @@ export default function PackageForm() {
           )}
         />
         <FormField
-          control={stepTwoForm.control}
+          control={packageForm.control}
           name="width"
           render={({ field }) => (
             <FormItem>
@@ -158,7 +158,7 @@ export default function PackageForm() {
         </h3>
         <div className="flex flex-row gap-2">
           <FormField
-            control={stepTwoForm.control}
+            control={packageForm.control}
             name="category"
             render={({ field }) => (
               <FormItem className="flex flex-row grow items-center justify-between rounded-lg border p-4">
@@ -199,7 +199,7 @@ export default function PackageForm() {
                               <CommandItem
                                 value={category}
                                 onSelect={() => {
-                                  stepTwoForm.setValue("category", category);
+                                  packageForm.setValue("category", category);
                                 }}
                               >
                                 {category}
@@ -224,7 +224,7 @@ export default function PackageForm() {
             )}
           />
           <FormField
-            control={stepTwoForm.control}
+            control={packageForm.control}
             name="isFragile"
             render={({ field }) => (
               <FormItem className="flex flex-row grow items-center justify-between rounded-lg border p-4">

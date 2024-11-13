@@ -6,10 +6,20 @@ import { Package } from "@/components/multistep-form-context";
 
 interface PackageItemProps {
   packageItem: Package;
-  key: number;
+  id: number;
+  isSelected: boolean;
 }
-export function PackageItem({ packageItem, key }: PackageItemProps) {
+
+export function PackageItem({ packageItem, id, isSelected }: PackageItemProps) {
   const { setCurrentPackage } = useOrderFormContext();
 
-  return <LuPackage className="hover:fill-white" size={75} />;
+  return (
+    <div onClick={() => setCurrentPackage(id)} className={`cursor-pointer`}>
+      <LuPackage
+        className="hover:scale-125"
+        color={isSelected ? "#0277ca" : "black"}
+        size={75}
+      />
+    </div>
+  );
 }

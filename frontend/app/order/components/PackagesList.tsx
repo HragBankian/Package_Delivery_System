@@ -1,10 +1,13 @@
 "use client";
 
-import { useOrderFormContext } from "@/components/multistep-form-context";
+import {
+  Package,
+  useOrderFormContext,
+} from "@/components/multistep-form-context";
 import { useRouter } from "next/navigation";
 import { PackageItem } from "./package-item";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect } from "react";
 import { LuPackageMinus, LuPackagePlus } from "react-icons/lu";
 import { PackageCategory } from "@/components/multistep-form-context";
 
@@ -12,35 +15,60 @@ export default function LocationForm() {
   const formContext = useOrderFormContext();
   const router = useRouter();
 
-  const [packages, setPackages] = useState([
-    {
-      weight: "",
-      height: "",
-      length: "",
-      width: "",
-      category: PackageCategory.Standard,
-      isFragile: false,
-    },
-  ]);
+  useEffect(() => {
+    // Ensure packageList is initialized if not already
+    if (
+      !formContext.order?.packageList ||
+      formContext.order.packageList.length === 0
+    ) {
+      const initialPackages: Package[] = [
+        {
+          weight: "",
+          height: "",
+          length: "",
+          width: "",
+          category: PackageCategory.Standard,
+          isFragile: false,
+        },
+      ];
+      formContext.updatePackageList(initialPackages);
+    }
+  }, [formContext]);
 
   function goBack() {
     formContext.prevStep();
     router.push("/order/locations/");
   }
 
-  console.log(formContext.order);
+  function goNext() {
+    formContext.nextStep();
+    router.push("/order/payment/");
+  }
+
+  // If order or packageList is not yet available, render a loading or placeholder
+  if (!formContext.order || !formContext.order.packageList) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="flex flex-col grow">
       <div className="flex flex-rows flex-wrap content-start p-20 grow">
-        {packages.map(function (item, i) {
-          return <PackageItem key={i} packageItem={item}></PackageItem>;
-        })}
+        {formContext.order.packageList.map((item, i) => (
+          <PackageItem
+            key={i}
+            id={i}
+            packageItem={item}
+            isSelected={formContext.currentPackage === i}
+          ></PackageItem>
+        ))}
         <div className="flex flex-col">
-          {packages.length > 1 && (
+          {formContext.order.packageList.length > 1 && (
             <button
               className="flex-grow"
               onClick={() => {
-                setPackages(packages.slice(0, -1));
+                formContext.updatePackageList(
+                  formContext.order.packageList.slice(0, -1)
+                );
               }}
             >
               <LuPackageMinus size={30} />
@@ -49,8 +77,8 @@ export default function LocationForm() {
           <button
             className="flex-grow"
             onClick={() => {
-              setPackages([
-                ...packages,
+              formContext.updatePackageList([
+                ...formContext.order.packageList,
                 {
                   weight: "",
                   height: "",
@@ -66,14 +94,24 @@ export default function LocationForm() {
           </button>
         </div>
       </div>
-      <Button
-        className="w-52 m-4"
-        onClick={() => {
-          goBack();
-        }}
-      >
-        Go to Previous Step
-      </Button>
+      <div className="flex flex-row justify-between">
+        <Button
+          className="w-52 m-4"
+          onClick={() => {
+            goBack();
+          }}
+        >
+          Go to Previous Step
+        </Button>
+        <Button
+          className="w-52 m-4"
+          onClick={() => {
+            goNext();
+          }}
+        >
+          Go to Next Step
+        </Button>
+      </div>
     </div>
   );
 }
