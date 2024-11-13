@@ -52,6 +52,9 @@ export default function LocationForm() {
 
   return (
     <div className="flex flex-col grow m-2 rounded-xl border border-3 border-omnivoxorange">
+      <h5 className="text-center my-2 text-gray-500">
+        click to add or remove packages
+      </h5>
       <div className="flex flex-rows flex-wrap content-start p-20 grow">
         {formContext.order.packageList.map((item, i) => (
           <PackageItem
