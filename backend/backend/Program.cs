@@ -1,5 +1,6 @@
 using System.Data;
 using backend.DesignPatternSupportClasses;
+using backend.DesignPatternSupportClasses.DependencyInjection;
 using backend.Services;
 using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Utilities.Encoders;
@@ -18,6 +19,9 @@ builder.Services.AddScoped<IDeliveryRequestService, DeliveryRequestService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IPackageService, PackageService>();
 builder.Services.AddScoped<ITrackingService, TrackingService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IEmailValidator,  EmailValidator>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 var app = builder.Build();
 
