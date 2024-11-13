@@ -71,27 +71,27 @@ export default function Navbar() {
           </Link>
           <Link
             className="font-roboto flex flex-row items-center truncate text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
-            href={""}
+            href={"/tracking"}
           >
             Order Tracker
           </Link>
           <Link
             className="font-roboto flex flex-row items-center truncate text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
-            href={"/"}
+            href={"/quotation"}
           >
             Get Quotation
           </Link>
           <Link
             className="font-roboto flex flex-row items-center truncate text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
-            href={"/"}
+            href={"/reviews"}
           >
-            Our Story
+            Leave Us A Review
           </Link>
           <Link
             className="font-roboto flex flex-row items-center truncate text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
-            href={"/"}
+            href={"/login"}
           >
-            Report a Problem
+            Login
           </Link>
         </div>
         <button

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  --background: #e88727;
   --foreground: #171717;
 }
 
@@ -25,3 +25,32 @@ body {
     text-wrap: balance;
   }
 }
+
+.homepage-bg {
+  background-image: url('/pictures/transportation_image_2.png');
+  background-size: cover; /* Ensures the image covers the entire page */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-attachment: fixed; /* Keeps the background fixed on scroll */
+  height: 100vh; /* Makes the background fill the full viewport height */
+  width: 100%;
+}
+
+.opaque-box {
+  background-color: rgba(179, 114, 56, 0.8);
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 1px solid rgb(2, 2, 2); /* This adds a 1px black border */
+}
+
+.featuresTitle{
+  font-family: 'Arial', sans-serif; /* Use a clean, sans-serif font */
+  font-size: 24px; /* Adjust the size as needed */
+  font-weight: bold; /* Makes the text bold */
+  color: #ffffff; /* Change to white (#ffffff) or black (#000000) based on preference */
+}
+
+
+
+
+
