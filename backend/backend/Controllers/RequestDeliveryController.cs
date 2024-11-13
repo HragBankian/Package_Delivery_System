@@ -1,33 +1,29 @@
+using backend.DatabaseClasses;
+using backend.DesignPatternSupportClasses;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
-using Dapper;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using backend.Controllers;
+
+
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class MyTableController : ControllerBase
+    public class DeliveryController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
+        private readonly DeliveryFacade _deliveryFacade;
 
-        public MyTableController(IConfiguration configuration)
+        public DeliveryController(DeliveryFacade deliveryFacade)
         {
-            _configuration = configuration;
+            _deliveryFacade = deliveryFacade;
         }
 
-        [HttpGet("GetMyTableRow")]
-        public async Task<ActionResult<IEnumerable<TestTable>>> GetMyTableRow()
+        [HttpPost("deliveryRequest")]
+        public IActionResult RequestDelivery([FromQuery] int customerId, [FromQuery]string pickupLocation, [FromQuery]string dropoffLocation, [FromBody]List<Package> packages)
         {
-            using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
-
-            var sql = "SELECT * FROM test_table";
-            var result = await connection.QueryAsync<TestTable>(sql);
-
-            return Ok(result);
+            // Request the delivery and retrieve the tracking number
+            Guid trackingNumber = _deliveryFacade.RequestDelivery(customerId, pickupLocation, dropoffLocation, packages);
+            return Ok(new { trackingNumber });
         }
     }
 }
+
