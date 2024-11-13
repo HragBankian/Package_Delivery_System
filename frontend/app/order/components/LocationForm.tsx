@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function LocationForm() {
   const formContext = useOrderFormContext();
@@ -47,61 +48,62 @@ export default function LocationForm() {
     <Form {...stepOneForm}>
       <form
         onSubmit={stepOneForm.handleSubmit(onSubmit)}
-        className="space-y-6 m-2 p-2 rounded-xl border border-3 bg-gray-100"
+        className="flex flex-col grow space-y-6 m-2 p-2 rounded-xl border border-3 border-omnivoxorange"
       >
-        <h2 className="text-2xl font-bold mb-4 text-center rounded-xl border border-3">
-          Locations
-        </h2>
-        <h3 className="block text-gray-700 text-xl dark:text-gray-300">
-          Pickup Location
-        </h3>
-        <FormField
-          control={stepOneForm.control}
-          name="originLocation"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Address</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="1455 Blvd. De Maisonneuve Ouest, Montreal, Quebec H3G 1M8"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>
-                This is the pickup location of your delivery.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <h3 className="block text-gray-700 text-xl dark:text-gray-300">
-          DropOff Location
-        </h3>
-        <FormField
-          control={stepOneForm.control}
-          name="destinationLocation"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Address</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="7141 Sherbrooke St W, Montreal, Quebec H4B 1R6"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>
-                This is the DropOff location of your delivery.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <button
+        <div className="flex flex-col grow space-y-6">
+          <h2 className="text-2xl font-bold mb-4 text-center">Locations</h2>
+          <h3 className="block text-gray-700 text-xl dark:text-gray-300">
+            Pickup Location
+          </h3>
+          <FormField
+            control={stepOneForm.control}
+            name="originLocation"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="1455 Blvd. De Maisonneuve Ouest, Montreal, Quebec H3G 1M8"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  This is the pickup location of your delivery.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <h3 className="block text-gray-700 text-xl dark:text-gray-300">
+            DropOff Location
+          </h3>
+          <FormField
+            control={stepOneForm.control}
+            name="destinationLocation"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="7141 Sherbrooke St W, Montreal, Quebec H4B 1R6"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  This is the DropOff location of your delivery.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <Button
           type="submit"
-          className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+          className="w-52 m-4 py-2 mt-auto bg-omnivoxblue text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 self-end"
         >
           Continue to next step
-        </button>
+        </Button>
       </form>
     </Form>
   );

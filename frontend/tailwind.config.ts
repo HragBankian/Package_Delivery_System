@@ -12,6 +12,7 @@ const config: Config = {
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
+			omnivoxdarkorange: '#c96c20',
   			omnivoxorange: '#eb9534',
   			omnivoxblue: '#0277ca',
   			card: {

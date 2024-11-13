@@ -1,13 +1,14 @@
 "use client";
+
+import { Button } from "@/components/ui/button";
+
 export default function PayementForm() {
   return (
     <form
       onSubmit={() => null}
-      className="space-y-6 m-2 p-2 rounded-xl border border-3 bg-gray-100"
+      className="space-y-6 m-2 p-2 rounded-xl border border-3 border-omnivoxorange"
     >
-      <h2 className="text-2xl font-bold mb-4 text-center rounded-xl border border-3">
-        Payment
-      </h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">Payment</h2>
       <div>
         <h3 className="block text-gray-700 text-xl dark:text-gray-300">
           Cardholder Name
@@ -72,12 +73,12 @@ export default function PayementForm() {
           </div>
         </div>
       </div>
-      <button
+      <Button
         type="submit"
-        className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+        className="w-full py-2 mt-auto bg-omnivoxblue text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 self-end"
       >
         Make Payment
-      </button>
+      </Button>
     </form>
   );
 }

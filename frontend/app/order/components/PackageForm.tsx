@@ -77,9 +77,9 @@ export default function PackageForm() {
     <Form {...packageForm}>
       <form
         onSubmit={packageForm.handleSubmit(onSubmit)}
-        className="space-y-6 m-2 p-2 rounded-xl border border-3 bg-gray-100 overflow-scroll max-h-[80vh]"
+        className="space-y-6 m-2 p-2 rounded-xl border border-3 border-omnivoxorange overflow-scroll max-h-[80vh]"
       >
-        <h2 className="text-2xl font-bold mb-4 text-center rounded-xl border border-3">
+        <h2 className="text-2xl font-bold mb-4 text-center">
           Package {currentPackageIndex + 1}
         </h2>
         <h3 className="block text-gray-700 text-xl dark:text-gray-300">
@@ -207,7 +207,7 @@ export default function PackageForm() {
                                   className={cn(
                                     "ml-auto",
                                     category === field.value
-                                      ? "opacity-100"
+                                      ? "opacity-100 stroke-omnivoxblue"
                                       : "opacity-0"
                                   )}
                                 />
@@ -242,12 +242,12 @@ export default function PackageForm() {
             )}
           />
         </div>
-        <button
+        <Button
           type="submit"
-          className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+          className="w-full py-2 bg-omnivoxblue text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
         >
           Save Package Information
-        </button>
+        </Button>
       </form>
     </Form>
   );

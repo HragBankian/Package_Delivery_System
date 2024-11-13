@@ -17,7 +17,7 @@ export function PackageItem({ packageItem, id, isSelected }: PackageItemProps) {
     <div onClick={() => setCurrentPackage(id)} className={`cursor-pointer`}>
       <LuPackage
         className="hover:scale-125"
-        color={isSelected ? "#0277ca" : "black"}
+        color={isSelected ? "#0277ca" : "#3f3f46"}
         size={75}
       />
     </div>

@@ -51,7 +51,7 @@ export default function LocationForm() {
   }
 
   return (
-    <div className="flex flex-col grow">
+    <div className="flex flex-col grow m-2 rounded-xl border border-3 border-omnivoxorange">
       <div className="flex flex-rows flex-wrap content-start p-20 grow">
         {formContext.order.packageList.map((item, i) => (
           <PackageItem
@@ -71,7 +71,11 @@ export default function LocationForm() {
                 );
               }}
             >
-              <LuPackageMinus size={30} />
+              <LuPackageMinus
+                color={"#3f3f46"}
+                className="hover:scale-125"
+                size={30}
+              />
             </button>
           )}
           <button
@@ -90,13 +94,17 @@ export default function LocationForm() {
               ]);
             }}
           >
-            <LuPackagePlus size={30} />
+            <LuPackagePlus
+              className="hover:scale-125"
+              color={"#3f3f46"}
+              size={30}
+            />
           </button>
         </div>
       </div>
       <div className="flex flex-row justify-between">
         <Button
-          className="w-52 m-4"
+          className="w-52 m-4 bg-omnivoxblue text-white hover:bg-blue-600"
           onClick={() => {
             goBack();
           }}
@@ -104,7 +112,7 @@ export default function LocationForm() {
           Go to Previous Step
         </Button>
         <Button
-          className="w-52 m-4"
+          className="w-52 m-4 bg-omnivoxblue text-white hover:bg-blue-600"
           onClick={() => {
             goNext();
           }}
