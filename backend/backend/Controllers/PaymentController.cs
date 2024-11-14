@@ -13,11 +13,13 @@ namespace backend.Controllers
     public class PaymentController : ControllerBase
     {
         private readonly IPaymentService _paymentService;
+        private readonly IEmailValidator _emailValidator;
         private readonly IConfiguration _configuration;
 
-        public PaymentController(IPaymentService paymentService, IConfiguration configuration)
+        public PaymentController(IPaymentService paymentService, IEmailValidator emailValidator, IConfiguration configuration)
         {
             _paymentService = paymentService;
+            _emailValidator = emailValidator;
             _configuration = configuration;
         }
 
@@ -84,8 +86,7 @@ namespace backend.Controllers
                 else if (paymentMethod.Equals("PayPal", StringComparison.OrdinalIgnoreCase))
                 {
                     // For PayPal, validate that paymentDetails is a valid email
-                    var emailValidator = new EmailValidator();
-                    isValid = emailValidator.IsValid(paymentDetails);
+                    isValid = _emailValidator.IsValid(paymentDetails);
                     if (!isValid)
                     {
                         return BadRequest(new { message = "Invalid PayPal email address." });
@@ -113,6 +114,5 @@ namespace backend.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
     }
 }

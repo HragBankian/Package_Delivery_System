@@ -67,6 +67,9 @@ namespace backend.Services
             if (!_emailValidator.IsValid(email))
                 throw new ArgumentException("Invalid email format.");
 
+            if (!_emailValidator.AddEmailIsUnique(email))
+                throw new ArgumentException("Email already exists.");
+
             string hashedPassword = _passwordHasher.HashPassword(password);
 
             var customer = new CustomerModel
@@ -109,6 +112,9 @@ namespace backend.Services
         {
             if (!_emailValidator.IsValid(email))
                 throw new ArgumentException("Invalid email format.");
+
+            if (!_emailValidator.EditEmailIsUnique(email, id))
+                throw new ArgumentException("Email already exists.");
 
             string hashedPassword = _passwordHasher.HashPassword(password);
 
