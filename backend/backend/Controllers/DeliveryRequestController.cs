@@ -21,7 +21,7 @@ namespace backend.Controllers
         public IActionResult RequestDelivery([FromQuery] int customerId, [FromQuery]string pickupLocation, [FromQuery]string dropoffLocation, [FromBody]List<PackageModel> packages)
         {
             // Request the delivery and retrieve the tracking number
-            DeliveryRequestResponse deliveryRequestResponse = _deliveryFacade.RequestDelivery(customerId, pickupLocation, dropoffLocation, packages);
+            int deliveryRequestResponse = _deliveryFacade.RequestDelivery(customerId, pickupLocation, dropoffLocation, packages);
             return Ok(deliveryRequestResponse);
         }
     }
