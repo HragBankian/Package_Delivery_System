@@ -22,6 +22,11 @@ builder.Services.AddScoped<ITrackingService, TrackingService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IEmailValidator,  EmailValidator>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IQuotationService, QuotationService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<CreditCardPaymentService>();
+builder.Services.AddScoped<PayPalPaymentService>();
+
 
 var app = builder.Build();
 
