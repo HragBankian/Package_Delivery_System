@@ -2,11 +2,11 @@ using backend.DesignPatternSupportClasses.DependencyInjection;
 
 namespace backend.Services
 {
-    public class PayPalPaymentService : IPaymentService
+    public class PayPalPayment : IPaymentService
     {
         private readonly IEmailValidator _emailValidator;
 
-        public PayPalPaymentService(IEmailValidator emailValidator)
+        public PayPalPayment(IEmailValidator emailValidator)
         {
             _emailValidator = emailValidator;
         }

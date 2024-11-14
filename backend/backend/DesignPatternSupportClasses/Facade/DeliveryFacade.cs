@@ -2,7 +2,7 @@
 using backend.Services;
 using MySql.Data.MySqlClient;
 
-namespace backend.DesignPatternSupportClasses;
+namespace backend.DesignPatternSupportClasses.Facade;
 
 public class DeliveryRequestResponse
 {
@@ -24,23 +24,23 @@ public class DeliveryFacade
         _packagesService = packageService;
     }
 
-    public DeliveryRequestResponse RequestDelivery(int customerId, string pickupLocation, string dropoffLocation, List<Package> packages)
+    public DeliveryRequestResponse RequestDelivery(int customerId, string pickupLocation, string dropoffLocation, List<PackageModel> packages)
     {
         //not dealing with tracking for now, but it HAS to return a Tracking object 
-        Tracking tracking = _trackingService.AddTracking(pickupLocation, dropoffLocation);
+        TrackingModel tracking = _trackingService.AddTracking(pickupLocation, dropoffLocation);
         if (tracking.Equals(null))
         {
             throw new InvalidOperationException("Failed to create tracking for the order.");
         }
-        Order order = _orderService.CreateOrder(tracking);
+        OrderModel order = _orderService.CreateOrder(tracking);
         if (order.Equals(null))
         {
             throw new InvalidOperationException("Failed to create order.");
         }
-        DeliveryRequest deliveryRequest = _deliveryRequestService.CreateDeliveryRequest(customerId, pickupLocation, dropoffLocation, order);
+        DeliveryRequestModel deliveryRequest = _deliveryRequestService.CreateDeliveryRequest(customerId, pickupLocation, dropoffLocation, order);
         if (deliveryRequest.Equals(null))
         {
-            throw new InvalidOperationException("Failed to create delivery request."); 
+            throw new InvalidOperationException("Failed to create delivery request.");
         }
         bool createPackagesSuccess = _packagesService.CreatePackages(packages, deliveryRequest.id);
         //returns tracking number in response
@@ -53,7 +53,7 @@ public class DeliveryFacade
             };
         }
         throw new InvalidOperationException("Failed to create packages.");
-        
-        
+
+
     }
 }

@@ -5,10 +5,10 @@ using Dapper;
 namespace backend.Services {
     public interface IQuotationService
     {
-        Quotation AddQuotation(int deliveryRequestId);
+        QuotationModel AddQuotation(int deliveryRequestId);
         bool DeleteQuotation(int id);
-        Quotation GetQuotationById(int id);
-        IEnumerable<Quotation> GetAllQuotations();
+        QuotationModel GetQuotationById(int id);
+        IEnumerable<QuotationModel> GetAllQuotations();
         double CalculateQuoteAmount(int deliveryRequestId); 
     }
 
@@ -22,13 +22,13 @@ namespace backend.Services {
             _configuration = configuration;
         }
 
-        public Quotation AddQuotation(int deliveryRequestId)
+        public QuotationModel AddQuotation(int deliveryRequestId)
         {
             // Step 1: Calculate the quote amount based on packages
             double quoteAmount = CalculateQuoteAmount(deliveryRequestId);
 
             // Step 2: Insert the quotation record into the database
-            var quotation = new Quotation
+            var quotation = new QuotationModel
             {
                 QuoteAmount = quoteAmount,
                 QuoteDate = DateTime.Now,
@@ -50,18 +50,18 @@ namespace backend.Services {
             return connection.Execute(sql, new { Id = id }) > 0;
         }
 
-        public Quotation GetQuotationById(int id)
+        public QuotationModel GetQuotationById(int id)
         {
             string sql = "SELECT * FROM quotations WHERE id = @Id";
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
-            return connection.QuerySingleOrDefault<Quotation>(sql, new { Id = id });
+            return connection.QuerySingleOrDefault<QuotationModel>(sql, new { Id = id });
         }
 
-        public IEnumerable<Quotation> GetAllQuotations()
+        public IEnumerable<QuotationModel> GetAllQuotations()
         {
             string sql = "SELECT * FROM quotations";
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
-            return connection.Query<Quotation>(sql).ToList();
+            return connection.Query<QuotationModel>(sql).ToList();
         }
 
         public double CalculateQuoteAmount(int deliveryRequestId)
@@ -69,7 +69,7 @@ namespace backend.Services {
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
 
             // Retrieve packages for the given deliveryRequestId
-            var packages = connection.Query<Package>(
+            var packages = connection.Query<PackageModel>(
                 "SELECT weight, length, width, height, category, isFragile FROM packages WHERE deliveryRequestId = @DeliveryRequestId",
                 new { DeliveryRequestId = deliveryRequestId });
 

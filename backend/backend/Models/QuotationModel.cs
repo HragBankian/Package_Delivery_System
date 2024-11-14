@@ -1,6 +1,6 @@
 ﻿namespace backend.DatabaseClasses;
 
-public class Quotation
+public class QuotationModel
 {
     public int Id { get; set; }
     public double QuoteAmount { get; set; }

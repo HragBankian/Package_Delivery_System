@@ -66,7 +66,7 @@
             }
 
             [HttpGet("all")]
-            public IEnumerable<Customer> GetAllCustomers()
+            public IEnumerable<CustomerModel> GetAllCustomers()
             {
                 return _customerService.GetAllCustomers();
             }

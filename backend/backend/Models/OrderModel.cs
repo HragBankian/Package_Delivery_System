@@ -1,10 +1,10 @@
 ﻿namespace backend.DatabaseClasses;
 
-public class Order
+public class OrderModel
 {
     public int id { get; set; }              
     public OrderStatus status { get; set; }  
-    public Tracking trackingObject { get; set; }   
+    public TrackingModel trackingObject { get; set; }   
 }
 
 public enum OrderStatus

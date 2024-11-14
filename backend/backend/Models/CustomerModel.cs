@@ -1,6 +1,6 @@
 ﻿namespace backend.DatabaseClasses
 {
-    public class Customer
+    public class CustomerModel
     {
         public int id { get; set; }
 
