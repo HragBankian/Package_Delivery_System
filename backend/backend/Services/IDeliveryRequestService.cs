@@ -5,7 +5,7 @@ using MySql.Data.MySqlClient;
 
 public interface IDeliveryRequestService
 {
-    DeliveryRequest CreateDeliveryRequest(int customerId, string pickupLocation, string dropoffLocation, Order order);
+    DeliveryRequestModel CreateDeliveryRequest(int customerId, string pickupLocation, string dropoffLocation, OrderModel order);
 }
 
 public class DeliveryRequestService : IDeliveryRequestService
@@ -17,9 +17,9 @@ public class DeliveryRequestService : IDeliveryRequestService
         _configuration = configuration;
     }
 
-    public DeliveryRequest CreateDeliveryRequest(int customerId, string pickupLocation, string dropoffLocation, Order order)
+    public DeliveryRequestModel CreateDeliveryRequest(int customerId, string pickupLocation, string dropoffLocation, OrderModel order)
     {
-        var deliveryRequest = new DeliveryRequest
+        var deliveryRequest = new DeliveryRequestModel
         {
             customerId = customerId,
             pickupLocation = pickupLocation,

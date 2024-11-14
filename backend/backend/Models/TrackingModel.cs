@@ -1,6 +1,6 @@
 ﻿namespace backend.DatabaseClasses;
 
-public class Tracking
+public class TrackingModel
 {
     public int id { get; set; }
     public Guid trackingNumber { get; set; }

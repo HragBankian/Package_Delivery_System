@@ -1,6 +1,6 @@
 ﻿namespace backend.DatabaseClasses;
 
-public class Package
+public class PackageModel
 {
     public double weight { get; set; }              
     public double length { get; set; }

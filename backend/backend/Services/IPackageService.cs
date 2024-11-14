@@ -7,7 +7,7 @@ namespace backend.Services;
 
 public interface IPackageService
 {
-    bool CreatePackages(List<Package> packages, int deliveryRequestId);
+    bool CreatePackages(List<PackageModel> packages, int deliveryRequestId);
 }
 
 public class PackageService : IPackageService
@@ -19,7 +19,7 @@ public class PackageService : IPackageService
         _configuration = configuration;
     }
 
-    public bool CreatePackages(List<Package> packages, int deliveryRequestId)
+    public bool CreatePackages(List<PackageModel> packages, int deliveryRequestId)
     {
         // SQL query to insert packages into the packages table
         string sql = @"

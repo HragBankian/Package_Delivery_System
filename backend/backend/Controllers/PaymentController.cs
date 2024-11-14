@@ -36,7 +36,7 @@ namespace backend.Controllers
 
                 // Step 1: Find the Order using trackingNumber
                 string orderQuery = "SELECT * FROM orders WHERE trackingNumber = @TrackingNumber";
-                var order = connection.QuerySingleOrDefault<Order>(orderQuery, new { TrackingNumber = trackingNumber });
+                var order = connection.QuerySingleOrDefault<OrderModel>(orderQuery, new { TrackingNumber = trackingNumber });
 
                 if (order == null)
                 {
@@ -45,7 +45,7 @@ namespace backend.Controllers
 
                 // Step 2: Find the DeliveryRequest using the orderId from the Order
                 string deliveryRequestQuery = "SELECT * FROM delivery_requests WHERE orderId = @OrderId";
-                var deliveryRequest = connection.QuerySingleOrDefault<DeliveryRequest>(deliveryRequestQuery, new { OrderId = order.id });
+                var deliveryRequest = connection.QuerySingleOrDefault<DeliveryRequestModel>(deliveryRequestQuery, new { OrderId = order.id });
 
                 if (deliveryRequest == null)
                 {
@@ -54,7 +54,7 @@ namespace backend.Controllers
 
                 // Step 3: Find the Quotation using deliveryRequestId
                 string quotationQuery = "SELECT * FROM quotations WHERE deliveryRequestId = @DeliveryRequestId";
-                var quotation = connection.QuerySingleOrDefault<Quotation>(quotationQuery, new { DeliveryRequestId = deliveryRequest.id });
+                var quotation = connection.QuerySingleOrDefault<QuotationModel>(quotationQuery, new { DeliveryRequestId = deliveryRequest.id });
 
                 if (quotation == null)
                 {

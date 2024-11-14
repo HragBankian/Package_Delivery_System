@@ -1,6 +1,6 @@
 namespace backend.Services
 {
-    public class CreditCardPaymentService : IPaymentService
+    public class CreditCardPayment : IPaymentService
     {
         public bool ProcessPayment(double amount, string creditCardNumber, string trackingNumber)
         {

@@ -1,6 +1,6 @@
 using System.Data;
-using backend.DesignPatternSupportClasses;
 using backend.DesignPatternSupportClasses.DependencyInjection;
+using backend.DesignPatternSupportClasses.Facade;
 using backend.Services;
 using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Utilities.Encoders;
@@ -24,8 +24,8 @@ builder.Services.AddScoped<IEmailValidator,  EmailValidator>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IQuotationService, QuotationService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
-builder.Services.AddScoped<CreditCardPaymentService>();
-builder.Services.AddScoped<PayPalPaymentService>();
+builder.Services.AddScoped<CreditCardPayment>();
+builder.Services.AddScoped<PayPalPayment>();
 
 
 var app = builder.Build();

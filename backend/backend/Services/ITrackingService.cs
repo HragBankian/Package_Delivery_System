@@ -6,12 +6,12 @@ using System;
 
 public interface ITrackingService
 {
-    Tracking AddTracking(string pickupLocation, string dropoffLocation);
+    TrackingModel AddTracking(string pickupLocation, string dropoffLocation);
     Guid GenerateTrackingNumber();
     string GetCurrentLocation(Guid trackingNumber);
     void UpdateCurrentLocation(Guid trackingNumber, string newLocation);
     DateTime GetEstimatedArrivalDate(Guid trackingNumber);
-    Tracking GetTrackingByOrderId(int orderId);
+    TrackingModel GetTrackingByOrderId(int orderId);
 }
 
 public class TrackingService : ITrackingService
@@ -23,9 +23,9 @@ public class TrackingService : ITrackingService
         _configuration = configuration;
     }
 
-    public Tracking AddTracking(string pickupLocation, string dropoffLocation)
+    public TrackingModel AddTracking(string pickupLocation, string dropoffLocation)
     {
-        var tracking = new Tracking
+        var tracking = new TrackingModel
         {
             trackingNumber = GenerateTrackingNumber(),
             currentLocation = pickupLocation,
@@ -70,13 +70,13 @@ public class TrackingService : ITrackingService
         return connection.QuerySingleOrDefault<DateTime>(sql, new { TrackingNumber = trackingNumber });
     }
 
-    public Tracking GetTrackingByOrderId(int orderId)
+    public TrackingModel GetTrackingByOrderId(int orderId)
     {
         string sql = @"
             SELECT * FROM tracking WHERE id = (
                 SELECT trackingId FROM orders WHERE id = @OrderId
             );";
         using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
-        return connection.QuerySingleOrDefault<Tracking>(sql, new { OrderId = orderId });
+        return connection.QuerySingleOrDefault<TrackingModel>(sql, new { OrderId = orderId });
     }
 }

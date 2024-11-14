@@ -7,7 +7,7 @@ namespace backend.Services;
 
 public interface IOrderService
 {
-    Order CreateOrder(Tracking trackingObject);
+    OrderModel CreateOrder(TrackingModel trackingObject);
 }
 
 public class OrderService : IOrderService
@@ -19,9 +19,9 @@ public class OrderService : IOrderService
         _configuration = configuration;
     }
 
-    public Order CreateOrder(Tracking trackingObject)
+    public OrderModel CreateOrder(TrackingModel trackingObject)
     {
-        var order = new Order
+        var order = new OrderModel
         {
             status = OrderStatus.PaymentPending,
             trackingObject = trackingObject
