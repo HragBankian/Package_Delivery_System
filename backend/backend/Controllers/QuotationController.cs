@@ -1,7 +1,5 @@
 using backend.Services;
-using backend.DatabaseClasses;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace backend.Controllers
 {
@@ -23,7 +21,7 @@ namespace backend.Controllers
             try
             {
                 var quotation = _quotationService.AddQuotation(deliveryRequestId); // Calls the service method
-                return Ok(new { QuoteAmount = quotation.QuoteAmount });
+                return Ok(new { QuoteAmount = quotation.quote_amount });
             }
             catch (Exception ex)
             {

@@ -1,6 +1,6 @@
 ﻿namespace backend.Controllers
 {
-    using global::backend.DatabaseClasses;
+    using global::backend.Models;
     using global::backend.Services;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;

@@ -11,7 +11,7 @@ namespace backend.Services
             _emailValidator = emailValidator;
         }
 
-        public bool ProcessPayment(double amount, string email, string trackingNumber)
+        public bool ProcessPaymentType(double amount, string email)
         {
             // Validate email format
             return _emailValidator.IsValid(email);

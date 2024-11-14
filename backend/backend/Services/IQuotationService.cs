@@ -1,6 +1,7 @@
-using backend.DatabaseClasses;
 using MySql.Data.MySqlClient;
 using Dapper;
+using backend.Models;
+using backend.Enumerations;
 
 namespace backend.Services {
     public interface IQuotationService
@@ -30,14 +31,14 @@ namespace backend.Services {
             // Step 2: Insert the quotation record into the database
             var quotation = new QuotationModel
             {
-                QuoteAmount = quoteAmount,
-                QuoteDate = DateTime.Now,
-                DeliveryRequestId = deliveryRequestId
+                quote_amount = quoteAmount,
+                quote_date = DateTime.Now,
+                delivery_request_id = deliveryRequestId
             };
 
-            string sql = "INSERT INTO quotations (quoteAmount, quoteDate, deliveryRequestId) VALUES (@QuoteAmount, @QuoteDate, @DeliveryRequestId); SELECT LAST_INSERT_ID();";
+            string sql = "INSERT INTO Quotation (quote_amount, quote_date, delivery_request_id) VALUES (@quote_amount, @quote_date, @delivery_request_id); SELECT LAST_INSERT_ID();";
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
-            quotation.Id = connection.ExecuteScalar<int>(sql, quotation);
+            quotation.id = connection.ExecuteScalar<int>(sql, quotation);
 
             // Step 3: Return the quotation with quoteAmount
             return quotation;
@@ -45,21 +46,21 @@ namespace backend.Services {
 
         public bool DeleteQuotation(int id)
         {
-            string sql = "DELETE FROM quotations WHERE id = @Id";
+            string sql = "DELETE FROM Quotation WHERE id = @Id";
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
             return connection.Execute(sql, new { Id = id }) > 0;
         }
 
         public QuotationModel GetQuotationById(int id)
         {
-            string sql = "SELECT * FROM quotations WHERE id = @Id";
+            string sql = "SELECT * FROM Quotation WHERE id = @Id";
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
             return connection.QuerySingleOrDefault<QuotationModel>(sql, new { Id = id });
         }
 
         public IEnumerable<QuotationModel> GetAllQuotations()
         {
-            string sql = "SELECT * FROM quotations";
+            string sql = "SELECT * FROM Quotation";
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
             return connection.Query<QuotationModel>(sql).ToList();
         }
@@ -70,7 +71,7 @@ namespace backend.Services {
 
             // Retrieve packages for the given deliveryRequestId
             var packages = connection.Query<PackageModel>(
-                "SELECT weight, length, width, height, category, isFragile FROM packages WHERE deliveryRequestId = @DeliveryRequestId",
+                "SELECT weight, length, width, height, category, is_fragile FROM Package WHERE delivery_request_id = @DeliveryRequestId",
                 new { DeliveryRequestId = deliveryRequestId });
 
             double totalQuoteAmount = 0.0;
@@ -98,7 +99,7 @@ namespace backend.Services {
                 }
 
                 // Additional charge for fragile items
-                if (package.isFragile)
+                if (package.is_fragile)
                 {
                     packageQuote += 10.0;
                 }

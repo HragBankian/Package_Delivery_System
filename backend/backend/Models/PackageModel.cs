@@ -1,18 +1,14 @@
-﻿namespace backend.DatabaseClasses;
+﻿using backend.Enumerations;
 
-public class PackageModel
+namespace backend.Models
 {
-    public double weight { get; set; }              
-    public double length { get; set; }
-    public double width { get; set; }
-    public double height { get; set; }
-    public PackageCategory category { get; set; }   
-    public bool isFragile { get; set; } 
-}
-
-public enum PackageCategory
-{
-    Standard,
-    Hazardous,
-    Valuable,
+    public class PackageModel
+    {
+        public double weight { get; set; }              
+        public double length { get; set; }
+        public double width { get; set; }
+        public double height { get; set; }
+        public PackageCategory category { get; set; }   
+        public bool is_fragile { get; set; }
+    }
 }

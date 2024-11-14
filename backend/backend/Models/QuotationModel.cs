@@ -1,9 +1,10 @@
-﻿namespace backend.DatabaseClasses;
-
-public class QuotationModel
+﻿namespace backend.Models
 {
-    public int Id { get; set; }
-    public double QuoteAmount { get; set; }
-    public DateTime QuoteDate { get; set; }
-    public int DeliveryRequestId { get; set; }
+    public class QuotationModel
+    {
+        public int id { get; set; }
+        public double quote_amount { get; set; }
+        public DateTime quote_date { get; set; }
+        public int delivery_request_id { get; set; }
+    }
 }

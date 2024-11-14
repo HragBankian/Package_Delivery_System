@@ -33,7 +33,7 @@ namespace backend.DesignPatternSupportClasses.DependencyInjection
         public bool AddEmailIsUnique(string email)
         {
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
-            string sql = "SELECT COUNT(1) FROM customer WHERE email = @Email";
+            string sql = "SELECT COUNT(1) FROM Customer WHERE email = @Email";
             int count = connection.ExecuteScalar<int>(sql, new { Email = email });
             return count == 0; // Return true if email is unique
         }
@@ -41,7 +41,7 @@ namespace backend.DesignPatternSupportClasses.DependencyInjection
         public bool EditEmailIsUnique(string email, int customerId)
         {
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
-            string sql = "SELECT COUNT(1) FROM customer WHERE email = @Email AND id != @Id";
+            string sql = "SELECT COUNT(1) FROM Customer WHERE email = @Email AND id != @Id";
             int count = connection.ExecuteScalar<int>(sql, new { Email = email, Id = customerId });
             return count == 0; // Return true if email is unique
         }
