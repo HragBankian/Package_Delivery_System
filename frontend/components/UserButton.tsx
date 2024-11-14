@@ -29,7 +29,7 @@ export default async function UserButton() {
                     Math.floor(Math.random() * 100000) + 1
                   }&randomizeIds=true`
                 }
-                alt={session.user.name ?? ""}
+                alt={session.user.fullName ?? ""}
               />
             </Avatar>
           </Button>
@@ -38,7 +38,7 @@ export default async function UserButton() {
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">
-                {session.user.name}
+                {session.user.fullName}
               </p>
               <p className="text-muted-foreground text-xs leading-none">
                 {session.user.email}
