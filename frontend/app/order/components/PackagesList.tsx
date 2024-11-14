@@ -115,12 +115,12 @@ export default function LocationForm() {
           Go to Previous Step
         </Button>
         <Button
-          className="w-52 m-4 bg-omnivoxblue text-white hover:bg-blue-600"
+          className="w-66 m-4 bg-omnivoxblue text-white hover:bg-blue-600"
           onClick={() => {
             goNext();
           }}
         >
-          Go to Next Step
+          Go to Next Step (Create Delivery Request)
         </Button>
       </div>
     </div>
