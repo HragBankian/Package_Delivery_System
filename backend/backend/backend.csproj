@@ -7,13 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.1.35" />
-    <PackageReference Include="MySql.Data" Version="9.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <Compile Remove="DesignPatternSupportClasses\AdapterPatternSupportClasses\**" />
+    <Content Remove="DesignPatternSupportClasses\AdapterPatternSupportClasses\**" />
+    <EmbeddedResource Remove="DesignPatternSupportClasses\AdapterPatternSupportClasses\**" />
+    <None Remove="DesignPatternSupportClasses\AdapterPatternSupportClasses\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DesignPatternSupportClasses\AdapterPatternSupportClasses\" />
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="MySql.Data" Version="9.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
 </Project>

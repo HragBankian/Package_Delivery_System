@@ -7,10 +7,10 @@ namespace backend.Services
 
     public class PaymentService : IPaymentService
     {
-        private readonly CreditCardPaymentService _creditCardService;
-        private readonly PayPalPaymentService _payPalService;
+        private readonly CreditCardPayment _creditCardService;
+        private readonly PayPalPayment _payPalService;
 
-        public PaymentService(CreditCardPaymentService creditCardService, PayPalPaymentService payPalService)
+        public PaymentService(CreditCardPayment creditCardService, PayPalPayment payPalService)
         {
             _creditCardService = creditCardService;
             _payPalService = payPalService;

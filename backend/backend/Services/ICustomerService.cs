@@ -7,12 +7,12 @@ namespace backend.Services
 {
     public interface ICustomerService
     {
-        Customer CustomerLogin(string email, string password);
-        Customer AddCustomer(string fullName, string address, string email, string password);
+        CustomerModel CustomerLogin(string email, string password);
+        CustomerModel AddCustomer(string fullName, string address, string email, string password);
         bool DeleteCustomer(int id);
-        Customer GetCustomerById(int id);
-        IEnumerable<Customer> GetAllCustomers();
-        Customer EditCustomer(int id, string fullName, string address, string email, string password);
+        CustomerModel GetCustomerById(int id);
+        IEnumerable<CustomerModel> GetAllCustomers();
+        CustomerModel EditCustomer(int id, string fullName, string address, string email, string password);
     }
 
 
@@ -29,7 +29,7 @@ namespace backend.Services
             _passwordHasher = passwordHasher;
         }
 
-        public Customer CustomerLogin(string email, string password)
+        public CustomerModel CustomerLogin(string email, string password)
         {
             // Validate the email format first
             if (!_emailValidator.IsValid(email))
@@ -42,7 +42,7 @@ namespace backend.Services
             connection.Open();
 
             var sql = "SELECT id, fullName, address, email, password FROM customer WHERE email = @Email LIMIT 1";
-            var customer = connection.QueryFirstOrDefault<Customer>(sql, new { Email = email });
+            var customer = connection.QueryFirstOrDefault<CustomerModel>(sql, new { Email = email });
 
             if (customer == null)
             {
@@ -62,14 +62,14 @@ namespace backend.Services
             return null; // Password mismatch
         }
 
-        public Customer AddCustomer(string fullName, string address, string email, string password)
+        public CustomerModel AddCustomer(string fullName, string address, string email, string password)
         {
             if (!_emailValidator.IsValid(email))
                 throw new ArgumentException("Invalid email format.");
 
             string hashedPassword = _passwordHasher.HashPassword(password);
 
-            var customer = new Customer
+            var customer = new CustomerModel
             {
                 fullName = fullName,
                 address = address,
@@ -91,21 +91,21 @@ namespace backend.Services
             return connection.Execute(sql, new { Id = id }) > 0;
         }
 
-        public Customer GetCustomerById(int id)
+        public CustomerModel GetCustomerById(int id)
         {
             string sql = "SELECT * FROM customer WHERE id = @Id";
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
-            return connection.QuerySingleOrDefault<Customer>(sql, new { Id = id });
+            return connection.QuerySingleOrDefault<CustomerModel>(sql, new { Id = id });
         }
 
-        public IEnumerable<Customer> GetAllCustomers()
+        public IEnumerable<CustomerModel> GetAllCustomers()
         {
             string sql = "SELECT * FROM customer";
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
-            return connection.Query<Customer>(sql).ToList();
+            return connection.Query<CustomerModel>(sql).ToList();
         }
 
-        public Customer EditCustomer(int id, string fullName, string address, string email, string password)
+        public CustomerModel EditCustomer(int id, string fullName, string address, string email, string password)
         {
             if (!_emailValidator.IsValid(email))
                 throw new ArgumentException("Invalid email format.");
