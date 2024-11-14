@@ -22,7 +22,7 @@ public class DeliveryFacade
     public Guid RequestDelivery(int customerId, string pickupLocation, string dropoffLocation, List<Package> packages)
     {
         //not dealing with tracking for now, but it HAS to return a Tracking object 
-        Tracking tracking = _trackingService.CreateTracking();
+        Tracking tracking = _trackingService.AddTracking(pickupLocation, dropoffLocation);
         if (tracking.Equals(null))
         {
             throw new InvalidOperationException("Failed to create tracking for the order.");
