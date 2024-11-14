@@ -11,7 +11,7 @@ declare module "next-auth" {
    */
   interface Session {
     user: {
-      /** The user's postal address. */
+      /** The user's full name. */
       fullName: string
       /**
        * By default, TypeScript merges new interface properties and overwrites existing ones.

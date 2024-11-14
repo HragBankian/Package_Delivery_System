@@ -1,10 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import {
-  PackageCategory,
-  useOrderFormContext,
-} from "@/components/multistep-form-context";
+import { useOrderFormContext } from "@/components/multistep-form-context";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -41,7 +38,7 @@ export default function PackageForm() {
   const formContext = useOrderFormContext();
   const router = useRouter();
 
-  const category = ["Standard", "Hazardous", "Valuable"] as const;
+  const categories = ["Standard", "Hazardous", "Valuable"] as const;
 
   // Form schema using Zod
   const packageFormSchema = z.object({
@@ -49,7 +46,11 @@ export default function PackageForm() {
     height: z.string().min(1, "Height is required"),
     length: z.string().min(1, "Length is required"),
     width: z.string().min(1, "Width is required"),
-    category: z.enum(category),
+    category: z
+      .number()
+      .int()
+      .min(0)
+      .max(categories.length - 1), // Category as index
     isFragile: z.boolean(),
   });
 
@@ -92,10 +93,7 @@ export default function PackageForm() {
             <FormItem>
               <FormLabel>Weight</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="1455 Blvd. De Maisonneuve Ouest, Montreal, Quebec H3G 1M8"
-                  {...field}
-                />
+                <Input placeholder="Enter weight" {...field} />
               </FormControl>
               <FormDescription>Weight of the package.</FormDescription>
               <FormMessage />
@@ -109,10 +107,7 @@ export default function PackageForm() {
             <FormItem>
               <FormLabel>Height</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="1455 Blvd. De Maisonneuve Ouest, Montreal, Quebec H3G 1M8"
-                  {...field}
-                />
+                <Input placeholder="Enter height" {...field} />
               </FormControl>
               <FormDescription>Height of the package.</FormDescription>
               <FormMessage />
@@ -126,10 +121,7 @@ export default function PackageForm() {
             <FormItem>
               <FormLabel>Length</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="1455 Blvd. De Maisonneuve Ouest, Montreal, Quebec H3G 1M8"
-                  {...field}
-                />
+                <Input placeholder="Enter length" {...field} />
               </FormControl>
               <FormDescription>Length of the package.</FormDescription>
               <FormMessage />
@@ -143,10 +135,7 @@ export default function PackageForm() {
             <FormItem>
               <FormLabel>Width</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="1455 Blvd. De Maisonneuve Ouest, Montreal, Quebec H3G 1M8"
-                  {...field}
-                />
+                <Input placeholder="Enter width" {...field} />
               </FormControl>
               <FormDescription>Width of the package.</FormDescription>
               <FormMessage />
@@ -164,30 +153,24 @@ export default function PackageForm() {
               <FormItem className="flex flex-row grow items-center justify-between rounded-lg border p-4">
                 <div className="space-y-0.5">
                   <FormLabel>Category</FormLabel>
-                  <FormDescription>
-                    This is the Category your package
-                  </FormDescription>
+                  <FormDescription>Category of your package</FormDescription>
                 </div>
                 <FormControl>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          className={cn(
-                            "w-[200px] justify-between",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value
-                            ? category.find(
-                                (category) => category === field.value
-                              )
-                            : "Select Category"}
-                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                      </FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          "w-[200px] justify-between",
+                          field.value === undefined && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value !== undefined
+                          ? categories[field.value]
+                          : "Select Category"}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-[200px] p-0">
                       <Command>
@@ -195,18 +178,16 @@ export default function PackageForm() {
                         <CommandList>
                           <CommandEmpty>No Category found.</CommandEmpty>
                           <CommandGroup>
-                            {category.map((category) => (
+                            {categories.map((category, index) => (
                               <CommandItem
-                                value={category}
-                                onSelect={() => {
-                                  packageForm.setValue("category", category);
-                                }}
+                                key={index}
+                                onSelect={() => field.onChange(index)} // Set category as index
                               >
                                 {category}
                                 <Check
                                   className={cn(
                                     "ml-auto",
-                                    category === field.value
+                                    field.value === index
                                       ? "opacity-100 stroke-omnivoxblue"
                                       : "opacity-0"
                                   )}
@@ -230,7 +211,7 @@ export default function PackageForm() {
               <FormItem className="flex flex-row grow items-center justify-between rounded-lg border p-4">
                 <div className="space-y-0.5">
                   <FormLabel className="text-base">Fragile Package</FormLabel>
-                  <FormDescription>My package is fragile</FormDescription>
+                  <FormDescription>Mark if package is fragile</FormDescription>
                 </div>
                 <FormControl>
                   <Switch

@@ -3,6 +3,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 
 export type Order = {
   packageList: Package[];
+  orderNumber: string;
   originLocation: string;
   destinationLocation: string;
   payment: Payment;
