@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/SOEN343_Omnivox_2/v17/.wsuo
+/.vs/SOEN343_Omnivox_2/v17/DocumentLayout.json
+/.vs/VSWorkspaceState.json

@@ -1,10 +1,10 @@
 ﻿using backend.DatabaseClasses;
 using MySql.Data.MySqlClient;
 using Dapper;
-using backend.DatabaseClasses;
+using backend.DesignPatternSupportClasses.Observer;
 using System;
 
-public interface ITrackingService
+public interface ITrackingService : ISubject
 {
     TrackingModel AddTracking(string pickupLocation, string dropoffLocation);
     Guid GenerateTrackingNumber();
@@ -17,6 +17,7 @@ public interface ITrackingService
 public class TrackingService : ITrackingService
 {
     private readonly IConfiguration _configuration;
+    private readonly List<IObserver> _observers = new();
 
     public TrackingService(IConfiguration configuration)
     {
@@ -61,6 +62,8 @@ public class TrackingService : ITrackingService
         string sql = "UPDATE tracking SET currentLocation = @NewLocation WHERE trackingNumber = @TrackingNumber;";
         using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
         connection.Execute(sql, new { NewLocation = newLocation, TrackingNumber = trackingNumber });
+
+        NotifyObservers(trackingNumber);
     }
 
     public DateTime GetEstimatedArrivalDate(Guid trackingNumber)
@@ -78,5 +81,25 @@ public class TrackingService : ITrackingService
             );";
         using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
         return connection.QuerySingleOrDefault<TrackingModel>(sql, new { OrderId = orderId });
+    }
+
+    // Observer Pattern Implementation
+    public void RegisterObserver(IObserver observer)
+    {
+        _observers.Add(observer);
+    }
+
+    public void RemoveObserver(IObserver observer)
+    {
+        _observers.Remove(observer);
+    }
+
+    public void NotifyObservers(Guid trackingNumber)
+    {
+        foreach (var observer in _observers)
+        {
+            // Update each observer with relevant tracking status
+            observer.Update("Location Updated", GetCurrentLocation(trackingNumber));
+        }
     }
 }
