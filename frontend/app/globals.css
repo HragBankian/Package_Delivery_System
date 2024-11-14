@@ -5,6 +5,7 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+
 }
 
 @layer utilities {
@@ -101,6 +102,7 @@ body {
   font-weight: bold; /* Makes the text bold */
   color: #ffffff; /* Change to white (#ffffff) or black (#000000) based on preference */
 }
+
 
 
 

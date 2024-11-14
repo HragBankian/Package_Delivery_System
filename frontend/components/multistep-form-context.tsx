@@ -1,5 +1,5 @@
-"use client";
-import { createContext, ReactNode, useContext, useState } from "react";
+'use client';
+import { createContext, ReactNode, useContext, useState, useEffect } from "react";
 
 export type Order = {
   packageList: Package[];
@@ -7,6 +7,7 @@ export type Order = {
   originLocation: string;
   destinationLocation: string;
   payment: Payment;
+  orderNumber: string;
 };
 
 export type Package = {
@@ -42,45 +43,47 @@ interface MultiStepContextType {
   updatePackageList: (values: Package[]) => void;
 }
 
-// "This will allow you to update the state within the context whenever you need to."
-interface MultiStepContextProviderProps {
-  children: ReactNode;
-}
-
-export const MultiStepContext = createContext<MultiStepContextType>(
-  {} as MultiStepContextType
+// Context Setup
+const MultiStepContext = createContext<MultiStepContextType>(
+    {} as MultiStepContextType
 );
 
 export const useOrderFormContext = () => {
   const context = useContext(MultiStepContext);
   if (!context) {
-    throw new Error(
-      "useNewPropertyFormContext must be used within a OrderFormContextProvider"
-    );
+    throw new Error("useOrderFormContext must be used within a OrderFormContextProvider");
   }
   return context;
 };
 
-export function OrderFormContextProvider({
-  children,
-}: MultiStepContextProviderProps) {
+export function OrderFormContextProvider({ children }: { children: ReactNode }) {
   const [step, setStep] = useState(1);
   const [currentPackage, setCurrentPackage] = useState(0);
-  const [order, setOrder] = useState<Order | null>({
+  const [order, setOrder] = useState<Order>({
     packageList: [],
     originLocation: "",
     destinationLocation: "",
     payment: { method: "", amount: "" },
+    orderNumber: "",
   });
 
+  useEffect(() => {
+    // Generate an order number when the user reaches the payment step
+    if (step === 3 && !order.orderNumber) {
+      const generatedOrderNumber = `ORD-${Math.floor(Math.random() * 1000000)}`;
+      setOrder((prevOrder) => ({
+        ...prevOrder,
+        orderNumber: generatedOrderNumber,
+      }));
+    }
+  }, [step, order.orderNumber]);
+
   function nextStep() {
-    if (step === 5) return;
-    setStep((prev) => prev + 1);
-    console.log(step);
+    if (step < 5) setStep((prev) => prev + 1);
   }
+
   function prevStep() {
-    if (step === 1) return;
-    setStep((prev) => prev - 1);
+    if (step > 1) setStep((prev) => prev - 1);
   }
 
   const updateOrderData = (values: Partial<Order>) => {
@@ -88,27 +91,23 @@ export function OrderFormContextProvider({
   };
 
   const updatePackageList = (updatedPackages: Package[]) => {
-    setOrder(
-      (prevOrder) =>
-        prevOrder ? { ...prevOrder, packageList: updatedPackages } : null // Or handle the case where the order is null
-    );
+    setOrder((prevOrder) => ({ ...prevOrder, packageList: updatedPackages }));
   };
 
   return (
-    <MultiStepContext.Provider
-      value={{
-        order,
-        step,
-        nextStep,
-        prevStep,
-        setOrder,
-        updateOrderData,
-        currentPackage,
-        setCurrentPackage,
-        updatePackageList,
-      }}
-    >
-      {children}
-    </MultiStepContext.Provider>
+      <MultiStepContext.Provider
+          value={{
+            order,
+            step,
+            nextStep,
+            prevStep,
+            currentPackage,
+            setCurrentPackage,
+            updateOrderData,
+            updatePackageList,
+          }}
+      >
+        {children}
+      </MultiStepContext.Provider>
   );
 }
