@@ -9,7 +9,7 @@ public class OrderModel
 
 public enum OrderStatus
 {
-    PaymentPending, //when the customer hasn't payed yet ?
-    Shipping, //change to this when customer pays ?
-    Shipped, //change to this when idk?
+    PaymentPending, //0: when the customer hasn't payed
+    Shipped, //1: when the customer pays
+    Delivered, //2: when the delivery is completed
 }
