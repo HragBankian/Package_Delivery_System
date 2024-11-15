@@ -12,7 +12,7 @@ const TrackingPage = () => {
     if (!trackingNumber) return;
 
     // Redirect to the dynamic tracking page
-    router.push(`/track/${trackingNumber}`);
+    router.push(`/tracking/${trackingNumber}`);
   };
 
   return (

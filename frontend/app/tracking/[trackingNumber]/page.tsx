@@ -23,8 +23,7 @@ export default function TrackingPage({
         const locationResponse = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/tracking/gettrackingbyid?trackingNumber=${trackingNumber}`
         );
-        if (!locationResponse.ok)
-          throw new Error("Failed to fetch current location");
+        if (!locationResponse.ok) throw new Error("Tracking number not found!");
         const data = await locationResponse.json();
         console.log(data);
         setCurrentLocation(data.current_location);

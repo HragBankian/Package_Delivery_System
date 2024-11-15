@@ -16,7 +16,7 @@ export default async function UserButton() {
   return (
     <div className="flex items-center gap-2 p-2 max-h-12 bg-omnivoxdarkorange rounded-full">
       <span className="hidden text-sm sm:inline-flex text-white">
-        {session.user.email}
+        {session.user.full_name}
       </span>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
