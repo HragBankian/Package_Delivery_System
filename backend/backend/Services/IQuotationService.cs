@@ -10,7 +10,8 @@ namespace backend.Services {
         bool DeleteQuotation(int id);
         QuotationModel GetQuotationById(int id);
         IEnumerable<QuotationModel> GetAllQuotations();
-        double CalculateQuoteAmount(int deliveryRequestId); 
+        double CalculateQuoteAmount(int deliveryRequestId);
+        QuotationModel GetQuotationByDeliveryRequestId(int deliveryRequestId);
     }
 
 
@@ -109,6 +110,26 @@ namespace backend.Services {
             }
 
             return totalQuoteAmount;
+        }
+
+        public QuotationModel GetQuotationByDeliveryRequestId(int deliveryRequestId)
+        {
+            // SQL query to retrieve the quotation by deliveryRequestId
+            string sql = @"
+                SELECT id, delivery_request_id, quote_amount, quote_date
+                FROM Quotation
+                WHERE delivery_request_id = @DeliveryRequestId;
+            ";
+
+            using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
+            var quotation = connection.QuerySingleOrDefault<QuotationModel>(sql, new { DeliveryRequestId = deliveryRequestId });
+
+            if (quotation == null)
+            {
+                throw new KeyNotFoundException("Quotation not found for the specified delivery request ID.");
+            }
+
+            return quotation;
         }
     }
 }
