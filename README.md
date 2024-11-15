@@ -1,21 +1,49 @@
-# SOEN343 - Team: Omnivox 2
-# Delivery Service Application
+# SOEN343 - Team: Omnivox 2 - Delivery Service Application
 
-Members and responsibilities:
+## Members and responsibilities:
 
-Hrag Bankian (40245363) - Users (CRUD)
+Hrag Bankian (40245363)
 
-Gregory Demirdjian (40249882) - Shipping and tracking
+Gregory Demirdjian (40249882)
 
-Elian Gadbois-Roy (40208293) - Database
+Elian Gadbois-Roy (40208293)
 
-Alec Kirakossian (40244852) - Chatbot
+Alec Kirakossian (40244852)
 
-Sevag Merdkhanian (40247912) - Orders (CRUD)
+Sevag Merdkhanian (40247912)
 
-Leon Robert-Hosein (40092184) - User interface and design
+Leon Robert-Hosein (40092184)
 
-How to run the back-end of the project:
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Running the Project
+
+Note that you must run the frontend and the backend of the project simultaneously on the same port. In our case, the port was set to 7086 in the .env.local file.
+
+## Running the Frontend
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+## Running the Backend
 
 1. Download Visual Studio Community Edition - https://visualstudio.microsoft.com/downloads/. Download asp .net within Visual Studio as well.
 
@@ -31,8 +59,5 @@ How to run the back-end of the project:
 
 7. Restart your Visual Studio
 
-8. Run the project with Program.cs
+8. Run the project. 
 
-9. Go to http://localhost:5000/swagger/index.html for the endpoint documentation.
-
-10. If there are any issues, let us know :)
