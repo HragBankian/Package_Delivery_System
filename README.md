@@ -18,7 +18,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Running the Project
 
-Note that you must run the frontend and the backend of the project simultaneously on the same port. In our case, the port was set to 7086 in the .env.local file.
+Note that you must run the frontend and the backend of the project simultaneously. In our case, for the backend, the port was set to 7086 in the .env.local file.
 
 ## Running the Frontend
 
