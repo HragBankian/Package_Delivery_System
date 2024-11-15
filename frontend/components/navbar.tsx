@@ -31,76 +31,73 @@ export default function Navbar() {
         </div>
 
         <div
-            className={`mx-auto flex flex-row transition-all duration-500 md:gap-12`}
+          className={`mx-auto flex flex-row items-center transition-all duration-500 md:gap-12`}
         >
           <Link
-              className="font-roboto flex flex-row items-center truncate text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
-              href={"/"}
+            className="font-roboto flex flex-row items-center truncate text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
+            href={"/"}
           >
             Home
           </Link>
           <Link
-              className="font-roboto flex flex-row items-center truncate text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
-              href={"/tracking"}
+            className="font-roboto flex flex-row items-center truncate text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
+            href={"/tracking"}
           >
             Order Tracker
           </Link>
 
           <Link
-              className="font-roboto flex flex-row items-center truncate text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
-              href={"/reviews"}
+            className="font-roboto flex flex-row items-center truncate text-white transition duration-150 hover:text-omnivoxblue hover:ease-in-out"
+            href={"/reviews"}
           >
             Leave Us A Review
           </Link>
 
-
           <div className="relative group flex items-center">
             {/* Dropdown Button */}
-            <button className="font-roboto flex items-center text-white transition duration-150 hover:text-omnivoxblue">
+            <button className="font-roboto flex items-center text-white min-h-12 transition duration-150 hover:text-omnivoxblue">
               Request a Delivery
             </button>
 
             {/* Dropdown Menu */}
-            <div
-                className="absolute left-0 bg-orange-400 rounded shadow-lg mt-32 hidden group-hover:block">
+            <div className="absolute left-0 bg-orange-400 rounded shadow-lg mt-32 hidden group-hover:block">
               <Link
-                  className="block px-4 py-2 text-white hover:bg-orange-300 hover:text-omnivoxblue whitespace-nowrap"
-                  href={"/order/locations"}
+                className="block px-4 py-2 text-white hover:bg-orange-300 hover:text-omnivoxblue whitespace-nowrap"
+                href={"/order/locations"}
               >
                 Create New Request
               </Link>
               <Link
-                  className="block px-4 py-2 text-white hover:bg-orange-300 hover:text-omnivoxblue whitespace-nowrap"
-                  href={"/order/continue"}
+                className="block px-4 py-2 text-white hover:bg-orange-300 hover:text-omnivoxblue whitespace-nowrap"
+                href={"/order/continue"}
               >
                 Continue a Request
               </Link>
             </div>
           </div>
 
-
-          <UserButton/>
+          <UserButton />
         </div>
         <button
-            aria-label="menu"
-            className="ml-auto flex flex-col gap-1.5 self-center md:hidden"
+          aria-label="menu"
+          className="ml-auto flex flex-col gap-1.5 self-center md:hidden"
         >
           <span
-              className={`block h-0.5 w-6 rounded-sm 
+            className={`block h-0.5 w-6 rounded-sm 
                     transition-all duration-300 ease-out ${
-                  false
-                      ? "translate-y-2 rotate-45 bg-white"
-                      : "-translate-y-0.5 bg-white"
-              }`}
+                      false
+                        ? "translate-y-2 rotate-45 bg-white"
+                        : "-translate-y-0.5 bg-white"
+                    }`}
           ></span>
           <span
-              className={`block h-0.5 w-6 rounded-sm 
+            className={`block h-0.5 w-6 rounded-sm 
                     transition-all duration-300 ease-out ${
-                  false ? "bg-transparent" : "-translate-y-0.5 bg-white"
-              }`}
+                      false ? "bg-transparent" : "-translate-y-0.5 bg-white"
+                    }`}
           ></span>
           <span
-              className={`block h-0.5 w-6 rounded-sm 
+            className={`block h-0.5 w-6 rounded-sm 
                     transition-all duration-300 ease-out ${
                       false
                         ? "-translate-y-2 -rotate-45 bg-white"

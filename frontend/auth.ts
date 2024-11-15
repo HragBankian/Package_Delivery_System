@@ -12,7 +12,7 @@ declare module "next-auth" {
   interface Session {
     user: {
       /** The user's full name. */
-      fullName: string
+      full_name: string
       /**
        * By default, TypeScript merges new interface properties and overwrites existing ones.
        * In this case, the default session user properties will be overwritten,
@@ -48,7 +48,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(response)
+
       if (!response.ok) return null
       return (await response.json()) ?? null
     },
@@ -60,14 +60,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     jwt({ token, user }) {
       if (user) { // User is available during sign-in
         token.id = user.id
-        token.fullName = user.fullName
+        token.full_name = user.full_name
       }
       return token
     },
     session({ session, token }) {
       if (token.id){
         session.user.id = token.id
-        session.user.fullName = token.fullName
+        session.user.full_name = token.full_name
       }
       
       return session

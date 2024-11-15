@@ -12,7 +12,9 @@ export function SignIn({
         await signIn(provider);
       }}
     >
-      <Button {...props}>Sign In</Button>
+      <Button className="bg-omnivoxblue hover:bg-blue-400" {...props}>
+        Sign In
+      </Button>
     </form>
   );
 }

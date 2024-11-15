@@ -4,7 +4,7 @@ const stepData = [
   { num: 1, title: "Step 1", description: "Pickup and Dropoff" },
   { num: 2, title: "Step 2", description: "Packages" },
   { num: 3, title: "Step 3", description: "Summary and Payment" },
-  { num: 4, title: "Step 4", description: "Confimration" },
+  { num: 4, title: "Step 4", description: "Confirmation" },
 ];
 export function Steps() {
   return (

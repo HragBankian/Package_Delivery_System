@@ -63,8 +63,6 @@ export default function LocationForm() {
         }
       );
 
-      console.log(response);
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
@@ -75,7 +73,7 @@ export default function LocationForm() {
       formContext.updateOrderData({
         orderNumber: JSON.stringify(await response.json()),
       });
-
+      formContext.nextStep();
       router.push("/order/payment/");
     } catch (err: any) {
       setError(err.message);
@@ -84,8 +82,12 @@ export default function LocationForm() {
     }
   }
 
-  if (!formContext.order || !formContext.order.packageList) {
-    return <div>Loading...</div>;
+  if (
+    !formContext.order.originLocation ||
+    !formContext.order.destinationLocation
+  ) {
+    router.push("/order/locations"); // Redirect to start of order form if no order exists
+    return <div>Redirecting...</div>;
   }
 
   return (

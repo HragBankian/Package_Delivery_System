@@ -2,7 +2,6 @@
 
 import { z } from "zod";
 import { useOrderFormContext } from "@/components/multistep-form-context";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -36,7 +35,6 @@ import { useEffect } from "react";
 
 export default function PackageForm() {
   const formContext = useOrderFormContext();
-  const router = useRouter();
 
   const categories = ["Standard", "Hazardous", "Valuable"] as const;
 

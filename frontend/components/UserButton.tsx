@@ -14,8 +14,8 @@ export default async function UserButton() {
   const session = await auth();
   if (!session?.user) return <SignIn />;
   return (
-    <div className="flex items-center gap-2">
-      <span className="hidden text-sm sm:inline-flex">
+    <div className="flex items-center gap-2 p-2 max-h-12 bg-omnivoxdarkorange rounded-full">
+      <span className="hidden text-sm sm:inline-flex text-white">
         {session.user.email}
       </span>
       <DropdownMenu>
@@ -29,7 +29,7 @@ export default async function UserButton() {
                     Math.floor(Math.random() * 100000) + 1
                   }&randomizeIds=true`
                 }
-                alt={session.user.fullName ?? ""}
+                alt={session.user.full_name ?? ""}
               />
             </Avatar>
           </Button>
@@ -38,7 +38,7 @@ export default async function UserButton() {
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">
-                {session.user.fullName}
+                {session.user.full_name}
               </p>
               <p className="text-muted-foreground text-xs leading-none">
                 {session.user.email}

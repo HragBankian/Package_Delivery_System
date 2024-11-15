@@ -1,13 +1,21 @@
-'use client';
-import { createContext, ReactNode, useContext, useState, useEffect } from "react";
+"use client";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
 
 export type Order = {
   packageList: Package[];
   orderNumber: string;
   originLocation: string;
   destinationLocation: string;
+  trackingNumber: string;
+  quotation: number;
+  quotationId: number;
   payment: Payment;
-  orderNumber: string;
 };
 
 export type Package = {
@@ -20,8 +28,8 @@ export type Package = {
 };
 
 export type Payment = {
-  method: string;
-  amount: string;
+  method: PaymentMethod;
+  amount: number;
 };
 
 export enum PackageCategory {
@@ -30,53 +38,60 @@ export enum PackageCategory {
   Valuable = "Valuable",
 }
 
+export enum PaymentMethod {
+  CC = "CC",
+  Paypal = "Paypal",
+}
+
 interface MultiStepContextType {
   order: Order;
   step: number;
   nextStep: () => void;
   prevStep: () => void;
+  setStep: (data: number) => void;
   createOrderData: (data: Order) => void;
   currentPackage: number;
   setCurrentPackage: (data: number) => void;
   addNewPackage: () => void;
   updateOrderData: (values: Partial<Order>) => void;
   updatePackageList: (values: Package[]) => void;
+  setPaymentLock: (value: boolean) => void;
+  paymentLock: boolean;
 }
 
 // Context Setup
 const MultiStepContext = createContext<MultiStepContextType>(
-    {} as MultiStepContextType
+  {} as MultiStepContextType
 );
 
 export const useOrderFormContext = () => {
   const context = useContext(MultiStepContext);
   if (!context) {
-    throw new Error("useOrderFormContext must be used within a OrderFormContextProvider");
+    throw new Error(
+      "useOrderFormContext must be used within a OrderFormContextProvider"
+    );
   }
   return context;
 };
 
-export function OrderFormContextProvider({ children }: { children: ReactNode }) {
+export function OrderFormContextProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const [step, setStep] = useState(1);
   const [currentPackage, setCurrentPackage] = useState(0);
+  const [paymentLock, setPaymentLock] = useState(false);
   const [order, setOrder] = useState<Order>({
     packageList: [],
     originLocation: "",
     destinationLocation: "",
-    payment: { method: "", amount: "" },
+    payment: { method: PaymentMethod.CC, amount: 0 },
+    quotation: 0,
+    quotationId: 0,
+    trackingNumber: "string",
     orderNumber: "",
   });
-
-  useEffect(() => {
-    // Generate an order number when the user reaches the payment step
-    if (step === 3 && !order.orderNumber) {
-      const generatedOrderNumber = `ORD-${Math.floor(Math.random() * 1000000)}`;
-      setOrder((prevOrder) => ({
-        ...prevOrder,
-        orderNumber: generatedOrderNumber,
-      }));
-    }
-  }, [step, order.orderNumber]);
 
   function nextStep() {
     if (step < 5) setStep((prev) => prev + 1);
@@ -95,19 +110,22 @@ export function OrderFormContextProvider({ children }: { children: ReactNode }) 
   };
 
   return (
-      <MultiStepContext.Provider
-          value={{
-            order,
-            step,
-            nextStep,
-            prevStep,
-            currentPackage,
-            setCurrentPackage,
-            updateOrderData,
-            updatePackageList,
-          }}
-      >
-        {children}
-      </MultiStepContext.Provider>
+    <MultiStepContext.Provider
+      value={{
+        order,
+        step,
+        setStep,
+        nextStep,
+        prevStep,
+        currentPackage,
+        setCurrentPackage,
+        updateOrderData,
+        updatePackageList,
+        setPaymentLock,
+        paymentLock,
+      }}
+    >
+      {children}
+    </MultiStepContext.Provider>
   );
 }
