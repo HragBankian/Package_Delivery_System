@@ -56,5 +56,23 @@ namespace backend.Controllers
             var quotations = _quotationService.GetAllQuotations();
             return Ok(quotations);
         }
+
+        [HttpGet("GetQuotationByDeliveryRequestId")]
+        public IActionResult GetQuotationByDeliveryRequestId([FromQuery] int deliveryRequestId)
+        {
+            try
+            {
+                var quotation = _quotationService.GetQuotationByDeliveryRequestId(deliveryRequestId);
+                return Ok(quotation);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }
