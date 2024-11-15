@@ -22,7 +22,31 @@ Note that you must run the frontend and the backend of the project simultaneousl
 
 ## Running the Frontend
 
-First, run the development server:
+After cloning the project, be sure to a valid .env.local under `/frontend` like so:
+
+```sh
+AUTH_SECRET="wooooHOoooo"
+
+NODE_TLS_REJECT_UNAUTHORIZED=0
+
+NEXT_PUBLIC_BACKEND_URL="https://localhost:7086"
+```
+
+Be sure that the port of the backend corresponds to the port your backend instance is running on.
+
+First, run install the dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -36,7 +60,7 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Learn More
+#### Learn More
 
 To learn more about Next.js, take a look at the following resources:
 
@@ -59,5 +83,4 @@ To learn more about Next.js, take a look at the following resources:
 
 7. Restart your Visual Studio
 
-8. Run the project. 
-
+8. Run the project.
