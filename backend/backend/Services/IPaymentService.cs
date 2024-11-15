@@ -45,21 +45,22 @@ namespace backend.Services
                 payment_method = paymentMethod,
                 quotation_id = quotationId
             };
-
+            
             // SQL to insert payment into the database
             string sql = @"
                 INSERT INTO Payment (payment_date, payment_method, quotation_id)
-                VALUES (@payment_date, @payment_method, @quotation_d);
+                VALUES (@payment_date, @payment_method, @quotation_id);
                 SELECT LAST_INSERT_ID();";
-
+            
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
+            
             payment.id = connection.ExecuteScalar<int>(sql, new
             {
-                PaymentDate = payment.payment_date,
-                PaymentMethod = payment.payment_method.ToString(),
-                QuotationId = payment.quotation_id
+                payment_date = payment.payment_date,
+                payment_method = payment.payment_method.ToString(),
+                quotation_id = payment.quotation_id
             });
-
+            
             return payment;
         }
 

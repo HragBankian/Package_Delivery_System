@@ -38,11 +38,11 @@ public class DeliveryRequestService : IDeliveryRequestService
         // Execute the insert query and retrieve the new ID
         int newDeliveryRequestId = connection.ExecuteScalar<int>(sql, new
         {
-            PickupLocation = deliveryRequest.pickup_location,
-            DropoffLocation = deliveryRequest.dropoff_location,
-            RequestDate = deliveryRequest.request_date,
-            Status = deliveryRequest.status.ToString(),
-            CustomerId = deliveryRequest.customer_id
+            pickup_location = deliveryRequest.pickup_location,
+            dropoff_location = deliveryRequest.dropoff_location,
+            request_date = deliveryRequest.request_date,
+            status = deliveryRequest.status.ToString(),
+            customer_id = deliveryRequest.customer_id
         });
 
         // Assign the generated ID to the delivery request

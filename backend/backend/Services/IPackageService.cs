@@ -22,7 +22,7 @@ namespace backend.Services
         {
             // SQL query to insert packages into the packages table
             string sql = @"
-            INSERT INTO Package (length, width, height, weight, category, is_fragile, deliveryRequestId)
+            INSERT INTO Package (length, width, height, weight, category, is_fragile, delivery_request_id)
             VALUES (@length, @width, @height, @weight, @category, @is_fragile, @delivery_request_id);
         ";
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));

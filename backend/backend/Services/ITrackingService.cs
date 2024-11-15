@@ -24,7 +24,7 @@ public class TrackingService : ITrackingService
     public TrackingModel AddTracking(int deliveryId)
     {
         using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
-
+        
         // Step 1: Retrieve the pickupLocation from DeliveryRequest using deliveryId
         string getPickupLocationSql = "SELECT pickup_location FROM DeliveryRequest WHERE id = @DeliveryId";
         string pickupLocation = connection.QuerySingleOrDefault<string>(getPickupLocationSql, new { DeliveryId = deliveryId });
@@ -33,29 +33,30 @@ public class TrackingService : ITrackingService
         {
             throw new ArgumentException("Invalid deliveryId. Delivery request not found.");
         }
-
+        
         // Step 2: Create TrackingModel with retrieved pickupLocation
         var tracking = new TrackingModel
         {
             tracking_number = GenerateTrackingNumber(),
             current_location = pickupLocation,
-            estimated_arrival_date = DateTime.Now.AddDays(7) // Assume shipping takes 7 days
+            estimated_arrival_date = DateTime.Now.AddDays(7), // Assume shipping takes 7 days
+            delivery_request_id = deliveryId
         };
-
+        
         // Step 3: Insert new tracking entry and retrieve the generated ID
         string sql = @"
         INSERT INTO Tracking (tracking_number, current_location, estimated_arrival_date, delivery_request_id)
-        VALUES (@tracking_number, @current_location, @estimated_arrival_date, @DeliveryId);
+        VALUES (@tracking_number, @current_location, @estimated_arrival_date, @delivery_request_id);
         SELECT LAST_INSERT_ID();";
 
         int newTrackingId = connection.ExecuteScalar<int>(sql, new
         {
-            TrackingNumber = tracking.tracking_number,
-            CurrentLocation = tracking.current_location,
-            EstimatedArrivalDate = tracking.estimated_arrival_date,
-            DeliveryRequestId = deliveryId
+            tracking_number = tracking.tracking_number,
+            current_location = tracking.current_location,
+            estimated_arrival_date = tracking.estimated_arrival_date,
+            delivery_request_id = deliveryId
         });
-
+        
         tracking.id = newTrackingId;
         return tracking;
     }
@@ -69,14 +70,15 @@ public class TrackingService : ITrackingService
     public TrackingModel GetTrackingById(Guid trackingNumber)
     {
         string sql = @"
-            SELECT id, tracking_number AS trackingNumber, current_location AS currentLocation, 
-                   estimated_arrival_date AS estimatedArrivalDate, delivery_request_id AS deliveryRequestId
-            FROM Tracking
-            WHERE tracking_number = @TrackingNumber;";
+        SELECT id, tracking_number, current_location, 
+               estimated_arrival_date, delivery_request_id
+        FROM Tracking
+        WHERE tracking_number = @trackingNumber;";
 
         using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
-        return connection.QuerySingleOrDefault<TrackingModel>(sql, new { TrackingNumber = trackingNumber });
+        return connection.QuerySingleOrDefault<TrackingModel>(sql, new { trackingNumber });
     }
+
 
     public void UpdateCurrentLocation(Guid trackingNumber, string newLocation)
     {

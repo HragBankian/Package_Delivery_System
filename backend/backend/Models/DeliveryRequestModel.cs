@@ -10,6 +10,6 @@ namespace backend.Models
         public DateTime request_date { get; set; }
         public OrderStatus status { get; set; }
         public int customer_id { get; set; }
-        //public List<PackageModel> packages { get; set; }
+        public List<PackageModel> packages { get; set; }
     }
 }
