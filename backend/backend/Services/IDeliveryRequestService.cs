@@ -6,6 +6,7 @@ using backend.Enumerations;
 public interface IDeliveryRequestService
 {
     DeliveryRequestModel CreateDeliveryRequest(int customerId, string pickupLocation, string dropoffLocation);
+    DeliveryRequestModel GetDeliveryRequestById(int deliveryRequestId);
 }
 
 public class DeliveryRequestService : IDeliveryRequestService
@@ -47,6 +48,26 @@ public class DeliveryRequestService : IDeliveryRequestService
 
         // Assign the generated ID to the delivery request
         deliveryRequest.id = newDeliveryRequestId;
+
+        return deliveryRequest;
+    }
+
+    public DeliveryRequestModel GetDeliveryRequestById(int deliveryRequestId)
+    {
+        string deliveryRequestSql = "SELECT * FROM DeliveryRequest WHERE id = @Id";
+        string packagesSql = "SELECT * FROM Package WHERE delivery_request_id = @DeliveryRequestId";
+
+        using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
+
+        // Retrieve the delivery request
+        var deliveryRequest = connection.QuerySingleOrDefault<DeliveryRequestModel>(deliveryRequestSql, new { Id = deliveryRequestId });
+
+        if (deliveryRequest != null)
+        {
+            // Retrieve associated packages
+            var packages = connection.Query<PackageModel>(packagesSql, new { DeliveryRequestId = deliveryRequestId }).ToList();
+            deliveryRequest.packages = packages;
+        }
 
         return deliveryRequest;
     }

@@ -21,7 +21,7 @@ namespace backend.Controllers
             try
             {
                 var quotation = _quotationService.AddQuotation(deliveryRequestId); // Calls the service method
-                return Ok(new { QuoteAmount = quotation.quote_amount });
+                return Ok(quotation);
             }
             catch (Exception ex)
             {
