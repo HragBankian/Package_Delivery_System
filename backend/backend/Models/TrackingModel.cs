@@ -1,9 +1,11 @@
-﻿namespace backend.DatabaseClasses;
-
-public class TrackingModel
+﻿namespace backend.Models
 {
-    public int id { get; set; }
-    public Guid trackingNumber { get; set; }
-    public String currentLocation { get; set; }          
-    public DateTime estimatedArrivalDate { get; set; }
+    public class TrackingModel
+    {
+        public int id { get; set; }
+        public Guid tracking_number { get; set; }
+        public String current_location { get; set; }          
+        public DateTime estimated_arrival_date { get; set; }
+        public int delivery_request_id { get; set; }
+    }
 }

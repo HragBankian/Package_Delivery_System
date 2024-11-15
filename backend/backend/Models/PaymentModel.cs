@@ -1,11 +1,12 @@
-﻿namespace backend.DatabaseClasses;
+﻿using backend.Enumerations;
 
-public class PaymentModel
+namespace backend.Models
 {
-    public int Id { get; set; } // Primary key, auto-increment
-    public double Amount { get; set; } // Payment amount
-    public DateTime PaymentDate { get; set; } // Date of the payment
-    public string PaymentMethod { get; set; } // Payment method (e.g., "CreditCard", "PayPal")
-    public int QuotationId { get; set; } // Foreign key to link to Quotation
-    public QuotationModel QuotationObject { get; set; } // Navigation property to the associated Quotation
+    public class PaymentModel
+    {
+        public int id { get; set; }
+        public DateTime payment_date { get; set; }
+        public PaymentMethod payment_method { get; set; }
+        public int quotation_id { get; set; }
+    }
 }

@@ -14,18 +14,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<DatabaseService>();
+builder.Services.AddScoped<IPaymentService, CreditCardPayment>();
+builder.Services.AddScoped<IPaymentService, PayPalPayment>();
 builder.Services.AddScoped<DeliveryFacade>();
+builder.Services.AddScoped<PaymentFacade>();
 builder.Services.AddScoped<IDeliveryRequestService, DeliveryRequestService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IPackageService, PackageService>();
 builder.Services.AddScoped<ITrackingService, TrackingService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IEmailValidator,  EmailValidator>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IQuotationService, QuotationService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
-builder.Services.AddScoped<CreditCardPayment>();
-builder.Services.AddScoped<PayPalPayment>();
+builder.Services.AddScoped<PaymentService>();
+
 
 
 var app = builder.Build();

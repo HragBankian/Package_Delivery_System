@@ -1,14 +1,15 @@
-﻿namespace backend.DatabaseClasses;
+﻿using backend.Enumerations;
 
-public class DeliveryRequestModel
+namespace backend.Models
 {
-    // Delivery Request Details
-    public int id { get; set; }
-    public string pickupLocation { get; set; }
-    public string dropoffLocation { get; set; }
-    public DateTime requestDate { get; set; }
-    public int customerId { get; set; }
-    public OrderModel order { get; set; }
-    public List<PackageModel> packages { get; set; }
+    public class DeliveryRequestModel
+    {
+        public int id { get; set; }
+        public string pickup_location { get; set; }
+        public string dropoff_location { get; set; }
+        public DateTime request_date { get; set; }
+        public OrderStatus status { get; set; }
+        public int customer_id { get; set; }
+        public List<PackageModel> packages { get; set; }
+    }
 }
-

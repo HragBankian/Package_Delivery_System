@@ -1,11 +1,11 @@
-﻿using System.Data;
-using Dapper;
-using backend.DatabaseClasses;
+﻿using Dapper;
+using backend.Models;
 using MySql.Data.MySqlClient;
+using backend.Enumerations;
 
 public interface IDeliveryRequestService
 {
-    DeliveryRequestModel CreateDeliveryRequest(int customerId, string pickupLocation, string dropoffLocation, OrderModel order);
+    DeliveryRequestModel CreateDeliveryRequest(int customerId, string pickupLocation, string dropoffLocation);
 }
 
 public class DeliveryRequestService : IDeliveryRequestService
@@ -17,31 +17,32 @@ public class DeliveryRequestService : IDeliveryRequestService
         _configuration = configuration;
     }
 
-    public DeliveryRequestModel CreateDeliveryRequest(int customerId, string pickupLocation, string dropoffLocation, OrderModel order)
+    public DeliveryRequestModel CreateDeliveryRequest(int customerId, string pickupLocation, string dropoffLocation)
     {
         var deliveryRequest = new DeliveryRequestModel
         {
-            customerId = customerId,
-            pickupLocation = pickupLocation,
-            dropoffLocation = dropoffLocation,
-            requestDate = DateTime.Now,
-            order = order
+            customer_id = customerId,
+            pickup_location = pickupLocation,
+            dropoff_location = dropoffLocation,
+            request_date = DateTime.Now,
+            status = OrderStatus.PaymentPending
         };
 
         // SQL to insert a new delivery request and return the newly created id
         string sql = @"
-            INSERT INTO delivery_requests (pickupLocation, dropoffLocation, requestDate, customerId, orderId)
-            VALUES (@PickupLocation, @DropoffLocation, @RequestDate, @CustomerId, @OrderId);
+            INSERT INTO DeliveryRequest (pickup_location, dropoff_location, request_date, status, customer_id)
+            VALUES (@pickup_location, @dropoff_location, @request_date, @status, @customer_id);
             SELECT LAST_INSERT_ID();";
+
         using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
         // Execute the insert query and retrieve the new ID
         int newDeliveryRequestId = connection.ExecuteScalar<int>(sql, new
         {
-            PickupLocation = deliveryRequest.pickupLocation,
-            DropoffLocation = deliveryRequest.dropoffLocation,
-            RequestDate = deliveryRequest.requestDate,
-            CustomerId = deliveryRequest.customerId,
-            OrderId = deliveryRequest.order.id
+            pickup_location = deliveryRequest.pickup_location,
+            dropoff_location = deliveryRequest.dropoff_location,
+            request_date = deliveryRequest.request_date,
+            status = deliveryRequest.status.ToString(),
+            customer_id = deliveryRequest.customer_id
         });
 
         // Assign the generated ID to the delivery request

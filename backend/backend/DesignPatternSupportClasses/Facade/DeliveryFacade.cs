@@ -1,50 +1,35 @@
-﻿using backend.DatabaseClasses;
+﻿using backend.Models;
 using backend.Services;
-using MySql.Data.MySqlClient;
 
-namespace backend.DesignPatternSupportClasses.Facade;
-
-public class DeliveryFacade
+namespace backend.DesignPatternSupportClasses.Facade
 {
-    private readonly IDeliveryRequestService _deliveryRequestService;
-    private readonly IOrderService _orderService;
-    private readonly ITrackingService _trackingService;
-    private readonly IPackageService _packagesService;
-
-    public DeliveryFacade(IDeliveryRequestService deliveryRequestService, IOrderService orderService, ITrackingService trackingService, IPackageService packageService)
+    public class DeliveryFacade
     {
-        _deliveryRequestService = deliveryRequestService;
-        _orderService = orderService;
-        _trackingService = trackingService;
-        _packagesService = packageService;
-    }
+        private readonly IDeliveryRequestService _deliveryRequestService;
+        private readonly ITrackingService _trackingService;
+        private readonly IPackageService _packagesService;
 
-    public int RequestDelivery(int customerId, string pickupLocation, string dropoffLocation, List<PackageModel> packages)
-    {
-        //not dealing with tracking for now, but it HAS to return a Tracking object 
-        TrackingModel tracking = _trackingService.AddTracking(pickupLocation, dropoffLocation);
-        if (tracking.Equals(null))
+        public DeliveryFacade(IDeliveryRequestService deliveryRequestService, ITrackingService trackingService, IPackageService packageService)
         {
-            throw new InvalidOperationException("Failed to create tracking for the order.");
+            _deliveryRequestService = deliveryRequestService;
+            _trackingService = trackingService;
+            _packagesService = packageService;
         }
-        OrderModel order = _orderService.CreateOrder(tracking);
-        if (order.Equals(null))
-        {
-            throw new InvalidOperationException("Failed to create order.");
-        }
-        DeliveryRequestModel deliveryRequest = _deliveryRequestService.CreateDeliveryRequest(customerId, pickupLocation, dropoffLocation, order);
-        if (deliveryRequest.Equals(null))
-        {
-            throw new InvalidOperationException("Failed to create delivery request.");
-        }
-        bool createPackagesSuccess = _packagesService.CreatePackages(packages, deliveryRequest.id);
-        //returns tracking number in response
-        if (createPackagesSuccess)
-        {
-            return deliveryRequest.id;
-        }
-        throw new InvalidOperationException("Failed to create packages.");
 
+        public int RequestDelivery(int customerId, string pickupLocation, string dropoffLocation, List<PackageModel> packages)
+        {
+            DeliveryRequestModel deliveryRequest = _deliveryRequestService.CreateDeliveryRequest(customerId, pickupLocation, dropoffLocation);
+            if (deliveryRequest.Equals(null))
+            {
+                throw new InvalidOperationException("Failed to create delivery request.");
+            }
+            bool createPackagesSuccess = _packagesService.CreatePackages(packages, deliveryRequest.id);
 
+            if (createPackagesSuccess)
+            {
+                return deliveryRequest.id;
+            }
+            throw new InvalidOperationException("Failed to create packages.");
+        }
     }
 }

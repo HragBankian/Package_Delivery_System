@@ -1,7 +1,7 @@
-﻿using backend.DatabaseClasses;
-using backend.DesignPatternSupportClasses.DependencyInjection;
+﻿using backend.DesignPatternSupportClasses.DependencyInjection;
 using MySql.Data.MySqlClient;
 using Dapper;
+using backend.Models;
 
 namespace backend.Services
 {
@@ -41,7 +41,7 @@ namespace backend.Services
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
             connection.Open();
 
-            var sql = "SELECT id, fullName, address, email, password FROM customer WHERE email = @Email LIMIT 1";
+            var sql = "SELECT id, full_name, address, email, password FROM Customer WHERE email = @Email LIMIT 1";
             var customer = connection.QueryFirstOrDefault<CustomerModel>(sql, new { Email = email });
 
             if (customer == null)
@@ -74,13 +74,13 @@ namespace backend.Services
 
             var customer = new CustomerModel
             {
-                fullName = fullName,
+                full_name = fullName,
                 address = address,
                 email = email,
                 password = hashedPassword
             };
 
-            string sql = "INSERT INTO customer (fullName, address, email, password) VALUES (@FullName, @Address, @Email, @Password); SELECT LAST_INSERT_ID();";
+            string sql = "INSERT INTO Customer (full_name, address, email, password) VALUES (@full_name, @address, @email, @password); SELECT LAST_INSERT_ID();";
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
             customer.id = connection.ExecuteScalar<int>(sql, customer);
 
@@ -89,21 +89,21 @@ namespace backend.Services
 
         public bool DeleteCustomer(int id)
         {
-            string sql = "DELETE FROM customer WHERE id = @Id";
+            string sql = "DELETE FROM Customer WHERE id = @Id";
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
             return connection.Execute(sql, new { Id = id }) > 0;
         }
 
         public CustomerModel GetCustomerById(int id)
         {
-            string sql = "SELECT * FROM customer WHERE id = @Id";
+            string sql = "SELECT * FROM Customer WHERE id = @Id";
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
             return connection.QuerySingleOrDefault<CustomerModel>(sql, new { Id = id });
         }
 
         public IEnumerable<CustomerModel> GetAllCustomers()
         {
-            string sql = "SELECT * FROM customer";
+            string sql = "SELECT * FROM Customer";
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
             return connection.Query<CustomerModel>(sql).ToList();
         }
@@ -118,12 +118,11 @@ namespace backend.Services
 
             string hashedPassword = _passwordHasher.HashPassword(password);
 
-            string sql = "UPDATE customer SET fullName = @FullName, address = @Address, email = @Email, password = @Password WHERE id = @Id";
+            string sql = "UPDATE Customer SET full_name = @FullName, address = @Address, email = @Email, password = @Password WHERE id = @Id";
             using var connection = new MySqlConnection(_configuration.GetConnectionString("MySqlDatabase"));
             connection.Execute(sql, new { Id = id, FullName = fullName, Address = address, Email = email, Password = hashedPassword });
 
             return GetCustomerById(id);
         }
     }
-
 }
