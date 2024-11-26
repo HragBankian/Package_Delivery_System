@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import ReactMarkdown from "react-markdown";
 
 export const dynamic = "force-dynamic";
 
@@ -28,11 +29,14 @@ export default function Chatbox() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userInput }),
-      });
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_URL + "/api/chat",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userInput }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch response");
@@ -96,11 +100,26 @@ export default function Chatbox() {
                     ? "bg-gray-200 text-gray-800 self-start" // Bot messages aligned to the left
                     : "bg-blue-500 text-white self-end" // User messages aligned to the right
                 }`}
-                style={{
-                  alignSelf: msg.isBot ? "flex-start" : "flex-end", // Explicit alignment
-                }}
+                // style={{
+                //   alignSelf: msg.isBot ? "flex-start" : "flex-end", // Explicit alignment
+                // }}
               >
-                {msg.text}
+                <ReactMarkdown
+                  components={{
+                    a: ({ href, children }) => (
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-omnivoxblue hover:text-blue-400 underline"
+                      >
+                        {children}
+                      </a>
+                    ),
+                  }}
+                >
+                  {msg.text}
+                </ReactMarkdown>
               </div>
             ))}
             {isLoading && (
