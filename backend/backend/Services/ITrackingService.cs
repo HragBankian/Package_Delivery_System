@@ -2,6 +2,7 @@
 using Dapper;
 using backend.DesignPatternSupportClasses.Observer;
 using backend.Models;
+using backend.Services;
 using backend.Enumerations;
 
 public interface ITrackingService : ISubject
@@ -15,11 +16,13 @@ public interface ITrackingService : ISubject
 public class TrackingService : ITrackingService
 {
     private readonly IConfiguration _configuration;
-    private readonly List<IObserver> _observers = new();
+    private readonly IObserver _observer;
 
     public TrackingService(IConfiguration configuration)
     {
         _configuration = configuration;
+        IEmailService emailService = new SmtpEmailService(_configuration);  // Assuming you have an EmailService class
+        _observer = new NotificationService(emailService, _configuration);
     }
 
     public TrackingModel AddTracking(int deliveryId)
@@ -135,26 +138,12 @@ public class TrackingService : ITrackingService
             connection.Execute(updateStatusSql, new { Status = OrderStatus.Delivered.ToString(), DeliveryRequestId = deliveryRequestId });
         }
 
-        // Notify observers about the location update
+        //get tracking model and pass to notify observers
         NotifyObservers(trackingNumber);
-    }
-
-    // Observer Pattern Implementation
-    public void RegisterObserver(IObserver observer)
-    {
-        _observers.Add(observer);
-    }
-
-    public void RemoveObserver(IObserver observer)
-    {
-        _observers.Remove(observer);
     }
 
     public void NotifyObservers(Guid trackingNumber)
     {
-        foreach (var observer in _observers)
-        {
-            observer.Update("Location Updated", GetTrackingById(trackingNumber)?.current_location);
-        }
+        _observer.Update("Location Updated", GetTrackingById(trackingNumber));
     }
 }

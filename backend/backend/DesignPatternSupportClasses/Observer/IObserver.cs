@@ -1,14 +1,14 @@
-﻿namespace backend.DesignPatternSupportClasses.Observer
+﻿using backend.Models;
+
+namespace backend.DesignPatternSupportClasses.Observer
 {
     public interface IObserver
     {
-        void Update(string trackingStatus, string location);
+        void Update(string message, TrackingModel tracking) { }
     }
 
     public interface ISubject
     {
-        void RegisterObserver(IObserver observer);
-        void RemoveObserver(IObserver observer);
         void NotifyObservers(Guid trackingNumber);
     }
 }
