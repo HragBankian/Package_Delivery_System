@@ -27,6 +27,7 @@ builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IQuotationService, QuotationService>();
 builder.Services.AddScoped<PaymentService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<ITrackingHistoryService, TrackingHistoryService>();
 
 
 
