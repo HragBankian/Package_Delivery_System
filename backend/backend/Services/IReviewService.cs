@@ -1,5 +1,4 @@
-﻿using backend.DesignPatternSupportClasses.DependencyInjection;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using Dapper;
 using backend.Models;
 
