@@ -9,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddHttpClient();
+builder.Services.AddSingleton(sp => new ChatbotService(
+    sp.GetRequiredService<IHttpClientFactory>(),
+    "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"
+));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
