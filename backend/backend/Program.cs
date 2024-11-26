@@ -29,6 +29,7 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<PaymentService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddSingleton<IEmailService, SmtpEmailService>();
+builder.Services.AddScoped<ITrackingHistoryService, TrackingHistoryService>();
 
 
 
