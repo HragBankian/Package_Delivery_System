@@ -3,7 +3,6 @@
 import { useState } from "react";
 import FormInput from "./FormInput";
 import SelectInput from "./SelectInput";
-import SubmitButton from "./SubmitButton";
 
 export default function QuotationForm() {
     const [formData, setFormData] = useState({
@@ -14,26 +13,26 @@ export default function QuotationForm() {
     });
     const [estimatedCost, setEstimatedCost] = useState<number | null>(null);
 
+    const calculateCost = (weight: string, speed: string) => {
+        if (!weight) return null; // If no weight is provided, return null
+        let cost = parseFloat(weight) * 2; // Base cost calculation
+        if (speed === "Express") cost *= 1.5; // Adjust cost for Express speed
+        return parseFloat(cost.toFixed(2)); // Return rounded cost
+    };
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+        const { name, value } = e.target;
+        const updatedFormData = { ...formData, [name]: value };
+        setFormData(updatedFormData);
 
-    const calculateCost = () => {
-        const { weight, speed } = formData;
-        let cost = parseFloat(weight) * 2;
-        if (speed === "Express") cost *= 1.5;
-        return cost.toFixed(2);
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        const cost = calculateCost();
-        setEstimatedCost(parseFloat(cost));
+        // Update estimated cost dynamically
+        const updatedCost = calculateCost(updatedFormData.weight, updatedFormData.speed);
+        setEstimatedCost(updatedCost);
     };
 
     return (
         <div className="mt-20 p-8 bg-white rounded shadow-lg max-w-3xl mx-auto">
-            <form onSubmit={handleSubmit}>
+            <form>
                 <FormInput
                     label="Package Weight (kg)"
                     type="number"
@@ -62,7 +61,6 @@ export default function QuotationForm() {
                     value={formData.speed}
                     onChange={handleChange}
                 />
-                <SubmitButton label="Get Quotation" />
                 {estimatedCost !== null && (
                     <p className="mt-4 text-green-600">Estimated Cost: ${estimatedCost}</p>
                 )}

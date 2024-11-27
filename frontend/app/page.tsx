@@ -66,7 +66,7 @@ export default function Home() {
             </details>
             <details className="mt-6">
               <summary className="font-semibold cursor-pointer">What payment methods are accepted?</summary>
-              <p className="mt-4">We accept credit cards, PayPal, and bank transfers.</p>
+              <p className="mt-4">We accept credit cards, and PayPal.</p>
             </details>
             <details className="mt-6">
               <summary className="font-semibold cursor-pointer">What is the delivery time?</summary>

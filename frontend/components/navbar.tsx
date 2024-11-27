@@ -65,7 +65,7 @@ export default function Navbar() {
                 className="block px-4 py-2 text-white hover:bg-orange-300 hover:text-omnivoxblue whitespace-nowrap"
                 href={"/order/locations"}
               >
-                Create New Request
+                Create New Request/Quotation
               </Link>
               <Link
                 className="block px-4 py-2 text-white hover:bg-orange-300 hover:text-omnivoxblue whitespace-nowrap"
