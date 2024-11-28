@@ -74,6 +74,7 @@ public class TrackingService : ITrackingService
             tracking_id = newTrackingId
         });
 
+        NotifyObservers(tracking.tracking_number);
         return tracking;
     }
 
