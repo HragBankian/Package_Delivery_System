@@ -1,18 +1,4 @@
-# SOEN343 - Team: Omnivox 2 - Delivery Service Application
-
-## Members and responsibilities:
-
-Hrag Bankian (40245363)
-
-Gregory Demirdjian (40249882)
-
-Elian Gadbois-Roy (40208293)
-
-Alec Kirakossian (40244852)
-
-Sevag Merdkhanian (40247912)
-
-Leon Robert-Hosein (40092184)
+# Package Delivery System
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
@@ -25,7 +11,7 @@ Note that you must run the frontend and the backend of the project simultaneousl
 After cloning the project, be sure to a valid .env.local under `/frontend` like so:
 
 ```sh
-AUTH_SECRET="wooooHOoooo"
+AUTH_SECRET=""
 
 NODE_TLS_REJECT_UNAUTHORIZED=0
 
